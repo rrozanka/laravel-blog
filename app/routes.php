@@ -18,4 +18,5 @@ Route::group(['before' => 'auth'], function() {
     Route::resource('users', 'App\Controllers\UsersController');
     Route::resource('posts', 'App\Controllers\PostsController');
     Route::resource('categories', 'App\Controllers\CategoriesController');
+    Route::resource('tags', 'App\Controllers\TagsController');
 });

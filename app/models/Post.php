@@ -15,6 +15,7 @@ class Post extends \Eloquent
      */
     public static $rules = [
         'name' => 'required|min:2',
+        'category' => 'required|numeric',
         'body' => 'required|min:2'
     ];
 
@@ -26,6 +27,16 @@ class Post extends \Eloquent
     public function user()
     {
         return $this->belongsTo('\App\Models\User');
+    }
+
+    /**
+     * function category
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function category()
+    {
+        return $this->belongsTo('\App\Models\Category');
     }
 
 }

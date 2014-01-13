@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Controllers;
+use App\Models\Category;
 use App\Models\Post;
+use App\Models\Utils;
 
 /**
  * Class PostsController
@@ -17,7 +19,7 @@ class PostsController extends \BaseController
 	 */
 	public function index()
 	{
-        $records = Post::with('user')->get();
+        $records = Post::with('user', 'category')->get();
 
 		return \View::make('posts.index')
             ->with('records', $records);
@@ -30,7 +32,10 @@ class PostsController extends \BaseController
 	 */
 	public function create()
 	{
-		return \View::make('posts.create');
+        $categories = Utils::toSelectFormat(Category::all(), 'Select category');
+
+		return \View::make('posts.create')
+            ->with('categories', $categories);
 	}
 
 	/**
@@ -47,6 +52,7 @@ class PostsController extends \BaseController
             $record->name = \Input::get('name');
             $record->body = \Input::get('body');
             $record->user_id = \Auth::user()->id;
+            $record->category_id = \Input::get('category');
             $record->save();
 
             return \Redirect::route('posts.index')->with('message', 'Post has been saved successfully');
@@ -75,8 +81,11 @@ class PostsController extends \BaseController
 	public function edit($id)
 	{
         $record = Post::findOrFail($id);
+        $categories = Utils::toSelectFormat(Category::all(), 'Select category');
 
-        return \View::make('posts.edit')->with('record', $record);
+        return \View::make('posts.edit')
+            ->with('record', $record)
+            ->with('categories', $categories);
 	}
 
 	/**
@@ -93,6 +102,7 @@ class PostsController extends \BaseController
         if ($validator->passes()) {
             $record->name = \Input::get('name');
             $record->body = \Input::get('body');
+            $record->category_id = \Input::get('category');
             $record->save();
 
             return \Redirect::route('posts.index')->with('message', 'Post has been edited successfully');

@@ -1,14 +1,13 @@
 <?php
 
 namespace App\Controllers;
-use App\Models\Category;
+use App\Models\Tag;
 
 /**
- * Class CategoriesController
+ * Class TagsController
  *
  */
-class CategoriesController extends \BaseController
-{
+class TagsController extends \BaseController {
 
 	/**
 	 * Display a listing of the resource.
@@ -17,10 +16,10 @@ class CategoriesController extends \BaseController
 	 */
 	public function index()
 	{
-        $records = Category::all();
+        $tags = Tag::all();
 
-        return \View::make('categories.index')
-            ->with('records', $records);
+        return \View::make('tags.index')
+            ->with('records', $tags);
 	}
 
 	/**
@@ -30,7 +29,7 @@ class CategoriesController extends \BaseController
 	 */
 	public function create()
 	{
-        return \View::make('categories.create');
+        return \View::make('tags.create');
 	}
 
 	/**
@@ -40,16 +39,16 @@ class CategoriesController extends \BaseController
 	 */
 	public function store()
 	{
-        $validator = \Validator::make(\Input::all(), Category::$rules);
+        $validator = \Validator::make(\Input::all(), Tag::$rules);
 
         if ($validator->passes()) {
-            $record = new Category();
+            $record = new Tag();
             $record->name = \Input::get('name');
             $record->save();
 
-            return \Redirect::route('categories.index')->with('message', 'Category has been saved successfully');
+            return \Redirect::route('tags.index')->with('message', 'Tag has been saved successfully');
         } else {
-            return \Redirect::route('categories.create')->with('message', 'The following errors occurred')->with('messageType', 'danger')->withErrors($validator)->withInput();
+            return \Redirect::route('tags.create')->with('message', 'The following errors occurred')->with('messageType', 'danger')->withErrors($validator)->withInput();
         }
 	}
 
@@ -61,7 +60,7 @@ class CategoriesController extends \BaseController
 	 */
 	public function show($id)
 	{
-        return \View::make('categories.show');
+        return \View::make('tags.show');
 	}
 
 	/**
@@ -72,9 +71,9 @@ class CategoriesController extends \BaseController
 	 */
 	public function edit($id)
 	{
-        $record = Category::findOrFail($id);
+        $record = Tag::findOrFail($id);
 
-        return \View::make('categories.edit')
+        return \View::make('tags.edit')
             ->with('record', $record);
 	}
 
@@ -86,16 +85,16 @@ class CategoriesController extends \BaseController
 	 */
 	public function update($id)
 	{
-        $record = Category::findOrFail($id);
-        $validator = \Validator::make(\Input::all(), Category::$rules);
+        $record = Tag::findOrFail($id);
+        $validator = \Validator::make(\Input::all(), Tag::$rules);
 
         if ($validator->passes()) {
             $record->name = \Input::get('name');
             $record->save();
 
-            return \Redirect::route('categories.index')->with('message', 'Category has been edited successfully');
+            return \Redirect::route('tags.index')->with('message', 'Tag has been edited successfully');
         } else {
-            return \Redirect::route('categories.edit', $record->id)->with('message', 'The following errors occurred')->with('messageType', 'danger')->withErrors($validator)->withInput();
+            return \Redirect::route('tags.edit', $record->id)->with('message', 'The following errors occurred')->with('messageType', 'danger')->withErrors($validator)->withInput();
         }
 	}
 
@@ -107,7 +106,7 @@ class CategoriesController extends \BaseController
 	 */
 	public function destroy($id)
 	{
-        $record = Category::findOrFail($id);
+        $record = Tag::findOrFail($id);
         $record->delete();
 	}
 

@@ -17,4 +17,14 @@ class Category extends \Eloquent
         'name' => 'required'
     ];
 
+    /**
+     * function posts
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function posts()
+    {
+        return $this->hasMany('App\Models\Post');
+    }
+
 }

@@ -24,6 +24,7 @@
                             <td>id</td>
                             <td>title</td>
                             <td>author</td>
+                            <td>category</td>
                             <td>actions</td>
                         </tr>
                     </thead>
@@ -34,6 +35,7 @@
                                     <td>{{ $post->id }}</td>
                                     <td>{{ $post->name }}</td>
                                     <td>{{ $post->user->firstname . ' ' . $post->user->lastname }}</td>
+                                    <td>{{ $post->category->name }}</td>
                                     <td>
                                         <a class="btn btn-primary btn-xs" href="{{ URL::route('posts.edit', $post->id) }}">
                                             <i class="fa fa-pencil"></i>

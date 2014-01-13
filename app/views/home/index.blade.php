@@ -23,7 +23,7 @@
                             <?php
                                 $date = new \DateTime($post->created_at);
                             ?>
-                            {{ $date->format('M d, Y') }} by {{ $post->user->firstname . ' ' . $post->user->lastname }}
+                            {{ $date->format('M d, Y') }} by {{ $post->user->firstname . ' ' . $post->user->lastname }} in {{ $post->category->name }}
 
                             @if(Auth::check())
                                 <small>
@@ -54,32 +54,37 @@
                 <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
             </div>
 
-            <div class="sidebar-module">
-                <h4>Archives</h4>
-                <ol class="list-unstyled">
-                    <li><a href="#">January 2014</a></li>
-                    <li><a href="#">December 2013</a></li>
-                    <li><a href="#">November 2013</a></li>
-                    <li><a href="#">October 2013</a></li>
-                    <li><a href="#">September 2013</a></li>
-                    <li><a href="#">August 2013</a></li>
-                    <li><a href="#">July 2013</a></li>
-                    <li><a href="#">June 2013</a></li>
-                    <li><a href="#">May 2013</a></li>
-                    <li><a href="#">April 2013</a></li>
-                    <li><a href="#">March 2013</a></li>
-                    <li><a href="#">February 2013</a></li>
-                </ol>
-            </div>
+            @if($categories->count())
+                <div class="sidebar-module">
+                    <h4>Categories</h4>
 
-            <div class="sidebar-module">
-                <h4>Elsewhere</h4>
-                <ol class="list-unstyled">
-                    <li><a href="#">GitHub</a></li>
-                    <li><a href="#">Twitter</a></li>
-                    <li><a href="#">Facebook</a></li>
-                </ol>
-            </div>
+                    <ol class="list-unstyled">
+                        @foreach($categories as $category)
+                            <li>
+                                <a href="#">
+                                    {{ $category->name }}
+                                </a>
+                            </li>
+                        @endforeach
+                    </ol>
+                </div>
+            @endif
+
+            @if($tags->count())
+                <div class="sidebar-module">
+                    <h4>Tags</h4>
+
+                    <ol class="list-unstyled">
+                        @foreach($tags as $tag)
+                            <li>
+                                <a href="#">
+                                    {{ $tag->name }}
+                                </a>
+                            </li>
+                        @endforeach
+                    </ol>
+                </div>
+            @endif
         </div>
     </div>
 @stop

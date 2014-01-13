@@ -8,6 +8,9 @@
     <li class="@if(Request::is('categories*'))active@endif">
         {{ link_to_route('categories.index', 'Categories') }}
     </li>
+    <li class="@if(Request::is('tags*'))active@endif">
+        {{ link_to_route('tags.index', 'Tags') }}
+    </li>
     <li class="@if(Request::is('posts*'))active@endif">
         {{ link_to_route('posts.index', 'Posts') }}
     </li>

@@ -36,6 +36,14 @@
                     </div>
                 </div>
 
+                <div class="form-group @if($errors->has('category'))has-error@endif">
+                    {{ Form::label('category', 'Category', ['class' => 'col-sm-2 control-label']) }}
+
+                    <div class="col-sm-10">
+                        {{ Form::select('category', $categories, null, array('class' => 'form-control', 'placeholder' => 'Category')) }}
+                    </div>
+                </div>
+
                 <div class="form-group @if($errors->has('body'))has-error@endif">
                     {{ Form::label('body', 'Content', ['class' => 'col-sm-2 control-label']) }}
 
