@@ -29,4 +29,23 @@ class Utils
         return $ret;
     }
 
+    /**
+     * function get ids
+     *
+     * @param object $records records
+     *
+     * @return array
+     */
+    public static function getIds($records)
+    {
+        $ret = [];
+        if ($records) {
+            foreach ($records as $record) {
+                $ret[] = $record->id;
+            }
+        }
+
+        return $ret;
+    }
+
 }

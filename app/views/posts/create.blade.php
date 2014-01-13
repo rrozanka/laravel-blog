@@ -44,6 +44,14 @@
                     </div>
                 </div>
 
+                <div class="form-group @if($errors->has('tags'))has-error@endif">
+                    {{ Form::label('tags', 'Tags', ['class' => 'col-sm-2 control-label']) }}
+
+                    <div class="col-sm-10">
+                        {{ Form::select('tags[]', $tags, null, array('class' => 'form-control', 'placeholder' => 'Tags', 'autocomplete' => 'off', 'multiple' => 'multiple')) }}
+                    </div>
+                </div>
+
                 <div class="form-group @if($errors->has('body'))has-error@endif">
                     {{ Form::label('body', 'Content', ['class' => 'col-sm-2 control-label']) }}
 

@@ -39,4 +39,14 @@ class Post extends \Eloquent
         return $this->belongsTo('\App\Models\Category');
     }
 
+    /**
+     * function tags
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function tags()
+    {
+        return $this->belongsToMany('\App\Models\Tag');
+    }
+
 }

@@ -17,4 +17,14 @@ class Tag extends \Eloquent
         'name' => 'required'
     ];
 
+    /**
+     * function posts
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    function posts()
+    {
+        return $this->belongsToMany('\App\Models\Post');
+    }
+
 }

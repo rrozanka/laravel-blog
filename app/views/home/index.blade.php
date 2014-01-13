@@ -32,6 +32,18 @@
                                     </a>
                                 </small>
                             @endif
+
+                            <br />
+
+                            @if($post->tags->count())
+                                <small>
+                                    @foreach($post->tags as $key => $tag)
+                                        <a href="#">
+                                            #{{ $tag->name }}@if($key != $post->tags->count() - 1), @endif
+                                        </a>
+                                    @endforeach
+                                </small>
+                            @endif
                         </p>
 
                         <p>

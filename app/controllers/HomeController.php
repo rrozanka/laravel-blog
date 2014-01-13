@@ -18,7 +18,7 @@ class HomeController extends \BaseController
      */
     public function getIndex()
     {
-        $posts = Post::with('user', 'category')->paginate(1);
+        $posts = Post::with('user', 'category', 'tags')->paginate(1);
         $categories = Category::all();
         $tags = Tag::all();
 

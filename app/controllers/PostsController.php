@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 use App\Models\Category;
+use App\Models\Tag;
 use App\Models\Post;
 use App\Models\Utils;
 
@@ -19,7 +20,7 @@ class PostsController extends \BaseController
 	 */
 	public function index()
 	{
-        $records = Post::with('user', 'category')->get();
+        $records = Post::with('user', 'category', 'tags')->get();
 
 		return \View::make('posts.index')
             ->with('records', $records);
@@ -33,9 +34,11 @@ class PostsController extends \BaseController
 	public function create()
 	{
         $categories = Utils::toSelectFormat(Category::all(), 'Select category');
+        $tags = Utils::toSelectFormat(Tag::all());
 
 		return \View::make('posts.create')
-            ->with('categories', $categories);
+            ->with('categories', $categories)
+            ->with('tags', $tags);
 	}
 
 	/**
@@ -54,6 +57,9 @@ class PostsController extends \BaseController
             $record->user_id = \Auth::user()->id;
             $record->category_id = \Input::get('category');
             $record->save();
+
+            // attach post tags
+            $record->tags()->sync(\Input::get('tags', []));
 
             return \Redirect::route('posts.index')->with('message', 'Post has been saved successfully');
         } else {
@@ -82,10 +88,14 @@ class PostsController extends \BaseController
 	{
         $record = Post::findOrFail($id);
         $categories = Utils::toSelectFormat(Category::all(), 'Select category');
+        $tags = Utils::toSelectFormat(Tag::all());
+        $tagsIds = Utils::getIds($record->tags()->get());
 
         return \View::make('posts.edit')
             ->with('record', $record)
-            ->with('categories', $categories);
+            ->with('categories', $categories)
+            ->with('tags', $tags)
+            ->with('tagsIds', $tagsIds);
 	}
 
 	/**
@@ -103,6 +113,7 @@ class PostsController extends \BaseController
             $record->name = \Input::get('name');
             $record->body = \Input::get('body');
             $record->category_id = \Input::get('category');
+            $record->tags()->sync(\Input::get('tags', []));
             $record->save();
 
             return \Redirect::route('posts.index')->with('message', 'Post has been edited successfully');
