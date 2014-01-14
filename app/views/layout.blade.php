@@ -9,10 +9,11 @@
         <title>Laravel Blog</title>
 
         <!-- Bootstrap core CSS -->
-        {{ HTML::style('css/bootstrap.min.css') }}
-        {{ HTML::style('css/font-awesome.min.css') }}
-        {{ HTML::style('css/blog.css') }}
-        {{ HTML::style('css/index.less', ['rel' => 'stylesheet/less']) }}
+        <?= stylesheet_link_tag() ?>
+        {{-- HTML::style('css/bootstrap.min.css') --}}
+        {{-- HTML::style('css/font-awesome.min.css') --}}
+        {{-- HTML::style('css/blog.css') --}}
+        {{-- HTML::style('css/index.less', ['rel' => 'stylesheet/less']) --}}
     </head>
     <body>
         <div class="blog-masthead">
@@ -53,9 +54,10 @@
         </div>
 
         <!-- Placed at the end of the document so the pages load faster -->
-        {{ HTML::script('js/jquery-1.10.2.min.js') }}
-        {{ HTML::script('js/bootstrap.min.js') }}
-        {{ HTML::script('js/less-1.6.0.min.js') }}
+        <?= javascript_include_tag() ?>
+        {{-- HTML::script('js/jquery-1.10.2.min.js') --}}
+        {{-- HTML::script('js/bootstrap.min.js') --}}
+        {{-- HTML::script('js/less-1.6.0.min.js') --}}
         @yield('scripts')
     </body>
 </html>
