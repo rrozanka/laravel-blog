@@ -14,4 +14,7 @@
     <li class="@if(Request::is('posts*'))active@endif">
         {{ link_to_route('posts.index', 'Posts') }}
     </li>
+    <li class="@if(Request::is('settings*'))active@endif">
+        {{ HTML::link('settings/index', 'Settings') }}
+    </li>
 </ul>

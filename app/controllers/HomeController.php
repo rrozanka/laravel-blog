@@ -4,6 +4,7 @@ namespace App\Controllers;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
+use App\Models\Setting;
 
 /**
  * Class HomeController
@@ -18,14 +19,11 @@ class HomeController extends \BaseController
      */
     public function getIndex()
     {
-        $posts = Post::with('user', 'category', 'tags')->paginate(1);
-        $categories = Category::all();
-        $tags = Tag::all();
-
         return \View::make('home.index')
-            ->with('posts', $posts)
-            ->with('categories', $categories)
-            ->with('tags', $tags);
+            ->with('posts', Post::with('user', 'category', 'tags')->paginate(1))
+            ->with('categories', Category::all())
+            ->with('tags', Tag::all())
+            ->with('about', Setting::getValueByKey('about'));
     }
 
     /**

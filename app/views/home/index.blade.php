@@ -8,7 +8,7 @@
 
     <div class="blog-header">
         <h1 class="blog-title">Laravel Blog</h1>
-        <p class="lead blog-description">The official example template of creating a blog with Bootstrap.</p>
+        <p class="lead blog-description">The example of creating a blog with Laravel & Bootstrap.</p>
     </div>
 
     <div class="row">
@@ -61,10 +61,14 @@
         </div>
 
         <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
-            <div class="sidebar-module sidebar-module-inset">
-                <h4>About</h4>
-                <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
-            </div>
+            @if($about)
+                <div class="sidebar-module sidebar-module-inset">
+                    <h4>About</h4>
+                    <p>
+                        {{ nl2br($about) }}
+                    </p>
+                </div>
+            @endif
 
             @if($categories->count())
                 <div class="sidebar-module">
