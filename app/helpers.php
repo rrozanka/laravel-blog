@@ -22,4 +22,22 @@ class ViewHelper
         return $dateTime->format($format);
     }
 
+    /**
+     * function short
+     *
+     * @param string $text text to short
+     * @param integer $length length
+     *
+     * @return string
+     */
+    public static function short($text, $length)
+    {
+        $extra = '';
+        if (strlen($text) > $length) {
+            $extra = '...';
+        }
+
+        return substr($text, 0, $length) . $extra;
+    }
+
 }

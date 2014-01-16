@@ -17,4 +17,7 @@
     <li class="@if(Request::is('settings*'))active@endif">
         {{ HTML::link('settings/index', 'Settings') }}
     </li>
+    <li class="@if(Request::is('comments*'))active@endif">
+        {{ link_to_route('comments.index', 'Comments') }}
+    </li>
 </ul>

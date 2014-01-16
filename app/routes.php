@@ -13,6 +13,11 @@
 
 Route::get('/', 'App\Controllers\HomeController@getIndex');
 Route::controller('home', 'App\Controllers\HomeController');
+
+/**
+ * routes before auth filter
+ *
+ */
 Route::group(['before' => 'auth'], function() {
     Route::controller('admin', 'App\Controllers\AdminController');
     Route::controller('settings', 'App\Controllers\SettingsController');
@@ -20,4 +25,7 @@ Route::group(['before' => 'auth'], function() {
     Route::resource('posts', 'App\Controllers\PostsController');
     Route::resource('categories', 'App\Controllers\CategoriesController');
     Route::resource('tags', 'App\Controllers\TagsController');
+    Route::resource('comments', 'App\Controllers\CommentsController', [
+        'only' => ['index', 'destroy']
+    ]);
 });
