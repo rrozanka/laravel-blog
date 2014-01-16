@@ -10,16 +10,12 @@
 
         <!-- Bootstrap core CSS -->
         <?= stylesheet_link_tag() ?>
-        {{-- HTML::style('css/bootstrap.min.css') --}}
-        {{-- HTML::style('css/font-awesome.min.css') --}}
-        {{-- HTML::style('css/blog.css') --}}
-        {{-- HTML::style('css/index.less', ['rel' => 'stylesheet/less']) --}}
     </head>
     <body>
         <div class="blog-masthead">
             <div class="container">
                 <nav class="blog-nav">
-                    <a class="blog-nav-item @if(Request::is('/*'))active@endif" href="{{ URL::to('/') }}">
+                    <a class="blog-nav-item @if(Request::is('/*') || Request::is('home/*'))active@endif" href="{{ URL::to('/') }}">
                         <i class="fa fa-home"></i> Home
                     </a>
 
@@ -28,7 +24,7 @@
                             <i class="fa fa-sign-in"></i> Login
                         </a>
                     @else
-                        <a class="blog-nav-item @if(!Request::is('/*'))active@endif" href="{{ URL::to('admin/index') }}">
+                        <a class="blog-nav-item @if(!Request::is('/*') && !Request::is('home/*'))active@endif" href="{{ URL::to('admin/index') }}">
                             <i class="fa fa-user"></i> Admin
                         </a>
 
@@ -55,9 +51,6 @@
 
         <!-- Placed at the end of the document so the pages load faster -->
         <?= javascript_include_tag() ?>
-        {{-- HTML::script('js/jquery-1.10.2.min.js') --}}
-        {{-- HTML::script('js/bootstrap.min.js') --}}
-        {{-- HTML::script('js/less-1.6.0.min.js') --}}
         @yield('scripts')
     </body>
 </html>

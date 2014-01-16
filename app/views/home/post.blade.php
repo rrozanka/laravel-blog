@@ -12,28 +12,17 @@
     </div>
 
     <ol class="breadcrumb">
+        <li>
+            <a href="{{ URL::to('/') }}">Home</a>
+        </li>
         <li class="active">
-            Home
+            {{ $post->name }}
         </li>
     </ol>
 
     <div class="row">
         <div class="col-sm-8 blog-main">
-            @if($posts->count())
-                @foreach($posts as $key => $post)
-                    @include('home.post_Part', ['post' => $post])
-
-                    @if($key != $posts->count() - 1)
-                        <hr class="dotted" />
-                    @endif
-                @endforeach
-            @else
-                <div class="alert alert-info">
-                    <i class="fa fa-info-circle"></i> No posts found.
-                </div>
-            @endif
-
-            {{ $posts->links() }}
+            @include('home.post_Part', ['post' => $post, 'singlePage' => true])
         </div>
 
         <div class="col-sm-3 col-sm-offset-1 blog-sidebar">

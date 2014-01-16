@@ -16,6 +16,7 @@ class Post extends \Eloquent
     public static $rules = [
         'name' => 'required|min:2',
         'category' => 'required|numeric',
+        'short_body' => 'required|min:2',
         'body' => 'required|min:2'
     ];
 
@@ -47,6 +48,16 @@ class Post extends \Eloquent
     public function tags()
     {
         return $this->belongsToMany('\App\Models\Tag');
+    }
+
+    /**
+     * function comments
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function comments()
+    {
+        return $this->hasMany('App\Models\Comment');
     }
 
 }

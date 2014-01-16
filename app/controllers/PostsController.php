@@ -53,6 +53,7 @@ class PostsController extends \BaseController
         if ($validator->passes()) {
             $record = new Post();
             $record->name = \Input::get('name');
+            $record->short_body = \Input::get('short_body');
             $record->body = \Input::get('body');
             $record->user_id = \Auth::user()->id;
             $record->category_id = \Input::get('category');
@@ -111,6 +112,7 @@ class PostsController extends \BaseController
 
         if ($validator->passes()) {
             $record->name = \Input::get('name');
+            $record->short_body = \Input::get('short_body');
             $record->body = \Input::get('body');
             $record->category_id = \Input::get('category');
             $record->tags()->sync(\Input::get('tags', []));
