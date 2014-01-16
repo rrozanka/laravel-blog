@@ -28,6 +28,38 @@ class HomeController extends \BaseController
     }
 
     /**
+     * category action
+     *
+     */
+    public function getCategory($id)
+    {
+        $category = Category::findOrFail($id);
+
+        return \View::make('home.category')
+            ->with('category', $category)
+            ->with('posts', $category->posts()->paginate(15))
+            ->with('categories', Category::all())
+            ->with('tags', Tag::all())
+            ->with('about', Setting::getValueByKey('about'));
+    }
+
+    /**
+     * tag action
+     *
+     */
+    public function getTag($id)
+    {
+        $tag = Tag::findOrFail($id);
+
+        return \View::make('home.tag')
+            ->with('tag', $tag)
+            ->with('posts', $tag->posts()->paginate(15))
+            ->with('categories', Category::all())
+            ->with('tags', Tag::all())
+            ->with('about', Setting::getValueByKey('about'));
+    }
+
+    /**
      * login action
      *
      */

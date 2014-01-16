@@ -13,11 +13,11 @@
 
         <ol class="list-unstyled">
             @foreach($categories as $category)
-            <li>
-                <a href="#">
-                    {{ $category->name }}
-                </a>
-            </li>
+                <li>
+                    <a href="{{ URL::to('home/category', $category->id) }}">
+                        {{ $category->name }}
+                    </a>
+                </li>
             @endforeach
         </ol>
     </div>
@@ -29,11 +29,11 @@
 
         <ol class="list-unstyled">
             @foreach($tags as $tag)
-            <li>
-                <a href="#">
-                    {{ $tag->name }}
-                </a>
-            </li>
+                <li>
+                    <a href="{{ URL::to('home/tag', $tag->id) }}">
+                        {{ $tag->name }}
+                    </a>
+                </li>
             @endforeach
         </ol>
     </div>
