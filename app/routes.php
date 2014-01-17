@@ -11,21 +11,23 @@
 |
 */
 
-Route::get('/', 'App\Controllers\HomeController@getIndex');
-Route::controller('home', 'App\Controllers\HomeController');
+Route::get('/', 'App\Controllers\Index\HomeController@getIndex');
+Route::controller('home', 'App\Controllers\Index\HomeController');
 
 /**
  * routes before auth filter
  *
  */
-Route::group(['before' => 'auth'], function() {
-    Route::controller('admin', 'App\Controllers\AdminController');
-    Route::controller('settings', 'App\Controllers\SettingsController');
-    Route::resource('users', 'App\Controllers\UsersController');
-    Route::resource('posts', 'App\Controllers\PostsController');
-    Route::resource('categories', 'App\Controllers\CategoriesController');
-    Route::resource('tags', 'App\Controllers\TagsController');
-    Route::resource('comments', 'App\Controllers\CommentsController', [
+Route::group(['prefix' => 'admin', 'before' => 'auth'], function() {
+    Route::controller('index', 'App\Controllers\Admin\IndexController');
+    Route::controller('settings', 'App\Controllers\Admin\SettingsController');
+    Route::resource('users', 'App\Controllers\Admin\UsersController');
+    Route::resource('posts', 'App\Controllers\Admin\PostsController');
+    Route::resource('categories', 'App\Controllers\Admin\CategoriesController');
+    Route::resource('tags', 'App\Controllers\Admin\TagsController');
+    Route::resource('comments', 'App\Controllers\Admin\CommentsController', [
         'only' => ['index', 'destroy']
     ]);
+
+    Route::get('admin/posts/index', 'App\Controllers\Admin\PostsController');
 });
