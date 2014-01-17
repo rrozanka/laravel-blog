@@ -3,13 +3,13 @@
         @if(isset($singlePage) && $singlePage)
             {{ $post->name }}
         @else
-            <a href="{{ URL::to('home/post', $post->id) }}">
+            <a href="{{ URL::to('home/post', [$post->id, Str::slug($post->name)]) }}">
                 {{ $post->name }}
             </a>
         @endif
     </h2>
     <p class="blog-post-meta">
-        {{ ViewHelper::outputDate($post->created_at) }} by {{ $post->user->firstname . ' ' . $post->user->lastname }} in <a href="{{ URL::to('home/category', $post->category->id) }}">{{ $post->category->name }}</a>
+        {{ ViewHelper::outputDate($post->created_at) }} by {{ $post->user->firstname . ' ' . $post->user->lastname }} in <a href="{{ URL::to('home/category', [$post->category->id, Str::slug($post->category->name)]) }}">{{ $post->category->name }}</a>
 
         @if(Auth::check())
             <small>
@@ -24,7 +24,7 @@
         @if($post->tags->count())
             <small>
                 @foreach($post->tags as $key => $tag)
-                    <a href="{{ URL::to('home/tag', $tag->id) }}">
+                    <a href="{{ URL::to('home/tag', [$tag->id, Str::slug($tag->name)]) }}">
                         #{{ $tag->name }}@if($key != $post->tags->count() - 1), @endif
                     </a>
                 @endforeach
@@ -41,7 +41,7 @@
             <br />
             <br />
 
-            <a href="{{ URL::to('home/post', $post->id) }}">
+            <a href="{{ URL::to('home/post', [$post->id, Str::slug($post->name)]) }}">
                 ...read more
             </a>
         @endif

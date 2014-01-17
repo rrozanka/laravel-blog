@@ -14,7 +14,7 @@
         <ol class="list-unstyled">
             @foreach($categories as $category)
                 <li>
-                    <a href="{{ URL::to('home/category', $category->id) }}">
+                    <a href="{{ URL::to('home/category', [$category->id, Str::slug($category->name)]) }}">
                         {{ $category->name }}
                     </a>
                 </li>
@@ -30,7 +30,7 @@
         <ol class="list-unstyled">
             @foreach($tags as $tag)
                 <li>
-                    <a href="{{ URL::to('home/tag', $tag->id) }}">
+                    <a href="{{ URL::to('home/tag', [$tag->id, Str::slug($tag->name)]) }}">
                         {{ $tag->name }}
                     </a>
                 </li>
