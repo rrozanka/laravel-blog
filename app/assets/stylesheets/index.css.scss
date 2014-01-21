@@ -53,3 +53,20 @@ hr {
   margin-bottom: 0;
 }
 // .blog-post
+
+table {
+  &.dataTable {
+    thead {
+      tr {
+        td {
+          cursor: pointer;
+        }
+        // td
+      }
+      // tr
+    }
+    // thead
+  }
+  // &.dataTable
+}
+// table

@@ -9,6 +9,15 @@ use App\Models\Setting;
  */
 class SettingsController extends \BaseController {
 
+    /**
+     * construct function
+     *
+     */
+    public function __construct()
+    {
+        $this->beforeFilter('admin');
+    }
+
 	/**
 	 * Display a listing of the resource.
 	 *

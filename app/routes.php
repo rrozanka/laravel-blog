@@ -28,6 +28,5 @@ Route::group(['prefix' => 'admin', 'before' => 'auth'], function() {
     Route::resource('comments', 'App\Controllers\Admin\CommentsController', [
         'only' => ['index', 'destroy']
     ]);
-
     Route::get('admin/posts/index', 'App\Controllers\Admin\PostsController');
 });

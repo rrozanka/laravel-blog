@@ -10,6 +10,15 @@ use App\Models\User;
 class UsersController extends \BaseController
 {
 
+    /**
+     * construct function
+     *
+     */
+    public function __construct()
+    {
+        $this->beforeFilter('admin');
+    }
+
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -22,6 +31,17 @@ class UsersController extends \BaseController
         return \View::make('admin.users.index')
             ->with('records', $records);
 	}
+
+    /**
+     * list action
+     *
+     */
+    public function getList()
+    {
+        $posts = User::select(['id', 'firstname', 'lastname', 'email']);
+
+        return Datatables::of($posts)->make();
+    }
 
 	/**
 	 * Show the form for creating a new resource.
@@ -48,6 +68,7 @@ class UsersController extends \BaseController
             $record->lastname = \Input::get('lastname');
             $record->email = \Input::get('email');
             $record->password = \Hash::make(\Input::get('password'));
+            $record->role = \Input::get('role');
             $record->save();
 
             return \Redirect::route('admin.users.index')->with('message', 'User has been saved successfully');
@@ -93,6 +114,7 @@ class UsersController extends \BaseController
             if (trim(\Input::get('password')) != '') {
                 $record->password = \Hash::make(\Input::get('password'));
             }
+            $record->role = \Input::get('role');
             $record->save();
 
             return \Redirect::route('admin.users.index')->with('message', 'User has been edited successfully');

@@ -20,7 +20,8 @@ class User extends \Eloquent implements UserInterface, RemindableInterface
         'lastname' => 'required|alpha|min:2',
         'email' => 'required|email|unique:users',
         'password' => 'required|alpha_num|between:6,12|confirmed',
-        'password_confirmation' => 'required|alpha_num|between:6,12'
+        'password_confirmation' => 'required|alpha_num|between:6,12',
+        'role' => 'required'
     ];
 
     /**
@@ -36,6 +37,18 @@ class User extends \Eloquent implements UserInterface, RemindableInterface
      * @var array
      */
     protected $hidden = array('password');
+
+    /**
+     * @var string admin role
+     *
+     */
+    public static $adminRole = 'admin';
+
+    /**
+     * @var string author role
+     *
+     */
+    public static $authorRole = 'author';
 
     /**
      * Get the unique identifier for the user.

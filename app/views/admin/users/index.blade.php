@@ -18,13 +18,14 @@
             </a>
 
             <div>
-                <table class="table">
+                <table id="users-table" class="table">
                     <thead>
                         <tr>
                             <td>id</td>
                             <td>first name</td>
                             <td>last name</td>
                             <td>e-mail</td>
+                            <td>role</td>
                             <td>actions</td>
                         </tr>
                     </thead>
@@ -36,6 +37,7 @@
                                     <td>{{ $user->firstname }}</td>
                                     <td>{{ $user->lastname }}</td>
                                     <td>{{ $user->email }}</td>
+                                    <td>{{ $user->role }}</td>
                                     <td>
                                         <a class="btn btn-primary btn-xs" href="{{ URL::route('admin.users.edit', $user->id) }}">
                                             <i class="fa fa-pencil"></i>
@@ -59,24 +61,4 @@
             </div>
         </div>
     </div>
-@stop
-
-@section('scripts')
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('.delete-record').click(function() {
-            if (confirm('Do you really want to delete this user?')) {
-                $.ajax({
-                    url: $(this).attr('href'),
-                    type: 'DELETE',
-                    success: function() {
-                        location.reload();
-                    }
-                });
-            }
-
-            return false;
-        });
-    });
-</script>
 @stop
