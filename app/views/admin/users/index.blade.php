@@ -49,12 +49,6 @@
                                     </td>
                                 </tr>
                             @endforeach
-                        @else
-                            <tr>
-                                <td colspan="5">
-                                    <i class="fa fa-info-circle"></i> No users found.
-                                </td>
-                            </tr>
                         @endif
                     </tbody>
                 </table>

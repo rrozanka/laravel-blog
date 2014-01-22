@@ -18,13 +18,13 @@
             </a>
 
             <div>
-                <table class="table">
+                <table id="categories-table" class="table">
                     <thead>
-                    <tr>
-                        <td>id</td>
-                        <td>name</td>
-                        <td>actions</td>
-                    </tr>
+                        <tr>
+                            <td>id</td>
+                            <td>name</td>
+                            <td>actions</td>
+                        </tr>
                     </thead>
                     <tbody>
                         @if($records->count())
@@ -43,36 +43,10 @@
                                     </td>
                                 </tr>
                             @endforeach
-                        @else
-                            <tr>
-                                <td colspan="3">
-                                    <i class="fa fa-info-circle"></i> No categories found.
-                                </td>
-                            </tr>
                         @endif
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-@stop
-
-@section('scripts')
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('.delete-record').click(function() {
-                if (confirm('Do you really want to delete this category?')) {
-                    $.ajax({
-                        url: $(this).attr('href'),
-                        type: 'DELETE',
-                        success: function() {
-                            location.reload();
-                        }
-                    });
-                }
-
-                return false;
-            });
-        });
-    </script>
 @stop

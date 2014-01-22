@@ -14,7 +14,7 @@
             </ol>
 
             <div>
-                <table class="table">
+                <table id="comments-table" class="table">
                     <thead>
                     <tr>
                         <td>id</td>
@@ -39,36 +39,10 @@
                                     </td>
                                 </tr>
                             @endforeach
-                        @else
-                            <tr>
-                                <td colspan="5">
-                                    <i class="fa fa-info-circle"></i> No comments found.
-                                </td>
-                            </tr>
                         @endif
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-@stop
-
-@section('scripts')
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('.delete-record').click(function() {
-                if (confirm('Do you really want to delete this comment?')) {
-                    $.ajax({
-                        url: $(this).attr('href'),
-                        type: 'DELETE',
-                        success: function() {
-                            location.reload();
-                        }
-                    });
-                }
-
-                return false;
-            });
-        });
-    </script>
 @stop

@@ -1,5 +1,5 @@
 $(document).ready ->
-  $('#users-table').dataTable
+  $('#comments-table').dataTable
     aoColumnDefs: [
       { sWidth: '75px', aTargets: [0] }
       { sWidth: '75px', bSortable: false, aTargets: [-1] }
