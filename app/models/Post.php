@@ -6,7 +6,7 @@ namespace App\Models;
  * Class Post
  *
  */
-class Post extends \Eloquent
+class Post extends BaseModel
 {
 
     /**
@@ -58,6 +58,40 @@ class Post extends \Eloquent
     public function comments()
     {
         return $this->hasMany('App\Models\Comment');
+    }
+
+    /**
+     * function store record
+     *
+     * @param array $params params
+     *
+     * @return object
+     */
+    public static function storeRecord($params)
+    {
+        $params['category_id'] = $params['category'];
+        $params['user_id'] = \Auth::user()->id;
+        unset($params['tags']);
+        unset($params['category']);
+
+        return parent::storeRecord($params);
+    }
+
+    /**
+     * function update record
+     *
+     * @param object $record record
+     * @param array $params params
+     *
+     * @return mixed
+     */
+    public static function updateRecord($record, $params)
+    {
+        $params['category_id'] = $params['category'];
+        unset($params['tags']);
+        unset($params['category']);
+
+        return parent::updateRecord($record, $params);
     }
 
 }

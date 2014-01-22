@@ -63,13 +63,7 @@ class UsersController extends \BaseController
         $validator = \Validator::make(\Input::all(), User::$rules);
 
         if ($validator->passes()) {
-            $record = new User();
-            $record->firstname = \Input::get('firstname');
-            $record->lastname = \Input::get('lastname');
-            $record->email = \Input::get('email');
-            $record->password = \Hash::make(\Input::get('password'));
-            $record->role = \Input::get('role');
-            $record->save();
+            User::storeRecord(\Input::all());
 
             return \Redirect::route('admin.users.index')->with('message', 'User has been saved successfully');
         } else {
@@ -108,14 +102,7 @@ class UsersController extends \BaseController
         $validator = \Validator::make(\Input::all(), $rules);
 
         if ($validator->passes()) {
-            $record->firstname = \Input::get('firstname');
-            $record->lastname = \Input::get('lastname');
-            $record->email = \Input::get('email');
-            if (trim(\Input::get('password')) != '') {
-                $record->password = \Hash::make(\Input::get('password'));
-            }
-            $record->role = \Input::get('role');
-            $record->save();
+            User::updateRecord($record, \Input::all());
 
             return \Redirect::route('admin.users.index')->with('message', 'User has been edited successfully');
         } else {

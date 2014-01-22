@@ -43,9 +43,7 @@ class CategoriesController extends \BaseController
         $validator = \Validator::make(\Input::all(), Category::$rules);
 
         if ($validator->passes()) {
-            $record = new Category();
-            $record->name = \Input::get('name');
-            $record->save();
+            Category::storeRecord(\Input::all());
 
             return \Redirect::route('admin.categories.index')->with('message', 'Category has been saved successfully');
         } else {
@@ -79,8 +77,7 @@ class CategoriesController extends \BaseController
         $validator = \Validator::make(\Input::all(), Category::$rules);
 
         if ($validator->passes()) {
-            $record->name = \Input::get('name');
-            $record->save();
+            Category::updateRecord($record, \Input::all());
 
             return \Redirect::route('admin.categories.index')->with('message', 'Category has been edited successfully');
         } else {

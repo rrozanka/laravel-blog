@@ -8,7 +8,7 @@ use Illuminate\Auth\Reminders\RemindableInterface;
  * Class User
  *
  */
-class User extends \Eloquent implements UserInterface, RemindableInterface
+class User extends BaseModel implements UserInterface, RemindableInterface
 {
 
     /**
@@ -88,6 +88,41 @@ class User extends \Eloquent implements UserInterface, RemindableInterface
     public function posts()
     {
         return $this->hasMany('Post');
+    }
+
+    /**
+     * function store record
+     *
+     * @param array $params params
+     *
+     * @return object
+     */
+    public static function storeRecord($params)
+    {
+        unset($params['password_confirmation']);
+        $params['password'] = \Hash::make($params['password']);
+
+        return parent::storeRecord($params);
+    }
+
+    /**
+     * function update record
+     *
+     * @param object $record record
+     * @param array $params params
+     *
+     * @return mixed
+     */
+    public static function updateRecord($record, $params)
+    {
+        unset($params['password_confirmation']);
+        if (trim($params['password']) != '') {
+            $params['password'] = \Hash::make($params['password']);
+        } else {
+            unset($params['password']);
+        }
+
+        return parent::updateRecord($record, $params);
     }
 
 }

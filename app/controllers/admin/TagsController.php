@@ -42,9 +42,7 @@ class TagsController extends \BaseController {
         $validator = \Validator::make(\Input::all(), Tag::$rules);
 
         if ($validator->passes()) {
-            $record = new Tag();
-            $record->name = \Input::get('name');
-            $record->save();
+            Tag::storeRecord(\Input::all());
 
             return \Redirect::route('admin.tags.index')->with('message', 'Tag has been saved successfully');
         } else {
@@ -78,8 +76,7 @@ class TagsController extends \BaseController {
         $validator = \Validator::make(\Input::all(), Tag::$rules);
 
         if ($validator->passes()) {
-            $record->name = \Input::get('name');
-            $record->save();
+            Tag::updateRecord($record, \Input::all());
 
             return \Redirect::route('admin.tags.index')->with('message', 'Tag has been edited successfully');
         } else {

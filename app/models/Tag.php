@@ -6,7 +6,7 @@ namespace App\Models;
  * Class Tag
  *
  */
-class Tag extends \Eloquent
+class Tag extends BaseModel
 {
 
     /**

@@ -6,7 +6,7 @@ namespace App\Models;
  * Class Category
  *
  */
-class Category extends \Eloquent
+class Category extends BaseModel
 {
 
     /**

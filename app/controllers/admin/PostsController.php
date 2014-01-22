@@ -51,13 +51,7 @@ class PostsController extends \BaseController
         $validator = \Validator::make(\Input::all(), Post::$rules);
 
         if ($validator->passes()) {
-            $record = new Post();
-            $record->name = \Input::get('name');
-            $record->short_body = \Input::get('short_body');
-            $record->body = \Input::get('body');
-            $record->user_id = \Auth::user()->id;
-            $record->category_id = \Input::get('category');
-            $record->save();
+            $record = Post::storeRecord(\Input::all());
 
             // attach post tags
             $record->tags()->sync(\Input::get('tags', []));
@@ -100,12 +94,8 @@ class PostsController extends \BaseController
         $validator = \Validator::make(\Input::all(), Post::$rules);
 
         if ($validator->passes()) {
-            $record->name = \Input::get('name');
-            $record->short_body = \Input::get('short_body');
-            $record->body = \Input::get('body');
-            $record->category_id = \Input::get('category');
+            $record = Post::updateRecord($record, \Input::all());
             $record->tags()->sync(\Input::get('tags', []));
-            $record->save();
 
             return \Redirect::route('admin.posts.index')->with('message', 'Post has been edited successfully');
         } else {
