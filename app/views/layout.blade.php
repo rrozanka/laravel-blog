@@ -15,20 +15,20 @@
         <div class="blog-masthead">
             <div class="container">
                 <nav class="blog-nav">
-                    <a class="blog-nav-item @if(Request::is('/*') || Request::is('home/*'))active@endif" href="{{ URL::to('/') }}">
+                    <a class="blog-nav-item @if((Request::is('/*') || Request::is('home/*')) && !Request::is('home/login'))active@endif" href="{{ URL::to('/') }}">
                         <i class="fa fa-home"></i> Home
                     </a>
 
                     @if(!Auth::check())
-                        <a class="blog-nav-item" href="{{ URL::to('home/login') }}">
+                        <a class="blog-nav-item pull-right @if(Request::is('home/login'))active@endif" href="{{ URL::to('home/login') }}">
                             <i class="fa fa-sign-in"></i> Login
                         </a>
                     @else
                         <a class="blog-nav-item @if(!Request::is('/*') && !Request::is('home/*'))active@endif" href="{{ URL::to('admin/index') }}">
-                            <i class="fa fa-user"></i> Admin
+                            <i class="fa fa-user"></i> @if(Auth::getUser()->role == \App\Models\User::$adminRole){{ 'Admin' }}@else{{ 'Author' }}@endif
                         </a>
 
-                        <a class="blog-nav-item" href="{{ URL::to('home/logout') }}">
+                        <a class="blog-nav-item pull-right" href="{{ URL::to('home/logout') }}">
                             <i class="fa fa-power-off"></i> Logout
                         </a>
                     @endif
