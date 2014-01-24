@@ -9,7 +9,7 @@ hr {
 // hr
 
 .container {
-  width: 1170px;
+  max-width: 1170px;
 }
 // .container
 
@@ -70,3 +70,22 @@ table {
   // &.dataTable
 }
 // table
+
+@media(max-width: 767px) {
+  body {
+    text-align: center;
+
+    .blog-masthead {
+      .container {
+        .blog-nav {
+          text-align: left;
+        }
+        // .blog-nav
+      }
+      // .container
+    }
+    // .blog-masthead
+  }
+  // body
+}
+// @media(max-width: 767px)
