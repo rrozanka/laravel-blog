@@ -90,6 +90,7 @@ class Post extends BaseModel
         $params['category_id'] = $params['category'];
         unset($params['tags']);
         unset($params['category']);
+        unset($params['files']);
 
         return parent::updateRecord($record, $params);
     }

@@ -16,12 +16,12 @@
             <div class="container">
                 <nav class="blog-nav">
                     <a class="blog-nav-item @if((Request::is('/*') || Request::is('home/*')) && !Request::is('home/login'))active@endif" href="{{ URL::to('/') }}">
-                        <i class="fa fa-home"></i> Home
+                        <i class="fa fa-home"></i> {{ trans('messages.menu.home') }}
                     </a>
 
                     @if(!Auth::check())
                         <a class="blog-nav-item pull-right @if(Request::is('home/login'))active@endif" href="{{ URL::to('home/login') }}">
-                            <i class="fa fa-sign-in"></i> Login
+                            <i class="fa fa-sign-in"></i> {{ trans('messages.menu.login') }}
                         </a>
                     @else
                         <a class="blog-nav-item @if(!Request::is('/*') && !Request::is('home/*'))active@endif" href="{{ URL::to('admin/index') }}">
@@ -29,7 +29,7 @@
                         </a>
 
                         <a class="blog-nav-item pull-right" href="{{ URL::to('home/logout') }}">
-                            <i class="fa fa-power-off"></i> Logout
+                            <i class="fa fa-power-off"></i> {{ trans('messages.menu.logout') }}
                         </a>
                     @endif
                 </nav>
@@ -43,9 +43,10 @@
         </div>
 
         <div class="blog-footer">
-            <p>Blog template built for <a href="http://getbootstrap.com">Bootstrap</a> by <a href="https://twitter.com/mdo">@mdo</a>.</p>
             <p>
-                <a href="#">Back to top</a>
+                <a href="#">
+                    {{ trans('messages.backToTop') }}
+                </a>
             </p>
         </div>
 
