@@ -1,21 +1,29 @@
-<?php
+<?php namespace App\Controllers\Admin;
 
-namespace App\Controllers\Admin;
-use App\Models\Comment;
+use Acme\Comment;
+use App\Controllers\BaseController;
+use Acme\Repositories\CommentRepositoryInterface;
 
 /**
  * Class CommentsController
  *
  */
-class CommentsController extends \BaseController {
+class CommentsController extends BaseController
+{
 
     /**
-     * construct function
+     * @var \Acme\Repositories\CommentRepositoryInterface
      *
      */
-    public function __construct()
+    protected $comment;
+
+    /**
+     * function construct
+     *
+     */
+    public function __construct(CommentRepositoryInterface $comment)
     {
-        $this->beforeFilter('admin');
+        $this->comment = $comment;
     }
 
 	/**
@@ -28,7 +36,7 @@ class CommentsController extends \BaseController {
 		$comments = Comment::with('post')->get();
 
         return \View::make('admin.comments.index')
-            ->with('records', $comments);
+            ->withComments($comments);
 	}
 
 	/**
@@ -39,8 +47,7 @@ class CommentsController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-        $record = Comment::findOrFail($id);
-        $record->delete();
+        $this->comment->delete($id);
 	}
 
 }

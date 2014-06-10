@@ -13,3 +13,14 @@
 //= require jquery
 //= require_directory ../../../provider/assets/javascripts
 //= require_tree .
+
+$(document).ready(function() {
+    if (flashMessage.length) {
+        noty({
+            text: flashMessage,
+            layout: 'bottomLeft',
+            type: flashMessageType,
+            timeout: 2500
+        });
+    }
+});

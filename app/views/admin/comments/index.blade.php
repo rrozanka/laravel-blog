@@ -25,8 +25,8 @@
                     </tr>
                     </thead>
                     <tbody>
-                        @if($records->count())
-                            @foreach($records as $record)
+                        @if($comments->count())
+                            @foreach($comments as $record)
                                 <tr>
                                     <td>{{ $record->id }}</td>
                                     <td>{{ $record->name }}</td>

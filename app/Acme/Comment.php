@@ -1,6 +1,4 @@
-<?php
-
-namespace App\Models;
+<?php namespace Acme;
 
 /**
  * Class Comment
@@ -20,13 +18,24 @@ class Comment extends \Eloquent
     ];
 
     /**
+     * @var array
+     *
+     */
+    protected $fillable = [
+        'name',
+        'email',
+        'body',
+        'post_id'
+    ];
+
+    /**
      * function post
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function post()
     {
-        return $this->belongsTo('\App\Models\Post');
+        return $this->belongsTo('Acme\Post');
     }
 
 }

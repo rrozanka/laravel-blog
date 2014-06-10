@@ -1,12 +1,10 @@
-<?php
-
-namespace App\Models;
+<?php namespace Acme;
 
 /**
  * Class Category
  *
  */
-class Category extends BaseModel
+class Category extends \Eloquent
 {
 
     /**
@@ -18,13 +16,21 @@ class Category extends BaseModel
     ];
 
     /**
+     * @var array
+     *
+     */
+    protected $fillable = [
+        'name'
+    ];
+
+    /**
      * function posts
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function posts()
     {
-        return $this->hasMany('App\Models\Post');
+        return $this->hasMany('Acme\Post');
     }
 
 }

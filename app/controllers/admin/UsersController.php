@@ -1,22 +1,30 @@
-<?php
+<?php namespace App\Controllers\Admin;
 
-namespace App\Controllers\Admin;
-use App\Models\User;
+use Acme\User;
+use App\Controllers\BaseController;
+use Acme\Repositories\UserRepositoryInterface;
 
 /**
  * Class UsersController
  *
+ * @package App\Controllers\Admin
  */
-class UsersController extends \BaseController
+class UsersController extends BaseController
 {
 
     /**
-     * construct function
+     * @var \Acme\Repositories\UserRepositoryInterface
      *
      */
-    public function __construct()
+    protected $user;
+
+    /**
+     * function construct
+     *
+     */
+    public function __construct(UserRepositoryInterface $user)
     {
-        $this->beforeFilter('admin');
+        $this->user = $user;
     }
 
 	/**
@@ -26,22 +34,11 @@ class UsersController extends \BaseController
 	 */
 	public function index()
 	{
-        $records = User::all();
+        $users = $this->user->getAll();
 
         return \View::make('admin.users.index')
-            ->with('records', $records);
+            ->withUsers($users);
 	}
-
-    /**
-     * list action
-     *
-     */
-    public function getList()
-    {
-        $posts = User::select(['id', 'firstname', 'lastname', 'email']);
-
-        return Datatables::of($posts)->make();
-    }
 
 	/**
 	 * Show the form for creating a new resource.
@@ -62,12 +59,20 @@ class UsersController extends \BaseController
 	{
         $validator = \Validator::make(\Input::all(), User::$rules);
 
-        if ($validator->passes()) {
-            User::storeRecord(\Input::all());
+        if ($validator->passes())
+        {
+            $this->user->create(\Input::all());
 
-            return \Redirect::route('admin.users.index')->with('message', 'User has been saved successfully');
-        } else {
-            return \Redirect::route('admin.users.create')->with('message', 'The following errors occurred')->with('messageType', 'danger')->withErrors($validator)->withInput();
+            return \Redirect::route('admin.users.index')
+                ->with('message', 'User has been saved successfully');
+        }
+        else
+        {
+            return \Redirect::route('admin.users.create')
+                ->with('message', 'The following errors occurred')
+                ->with('messageType', 'danger')
+                ->withErrors($validator)
+                ->withInput();
         }
 	}
 
@@ -81,7 +86,8 @@ class UsersController extends \BaseController
 	{
         $record = User::findOrFail($id);
 
-		return \View::make('admin.users.edit')->with('record', $record);
+		return \View::make('admin.users.edit')
+            ->with('record', $record);
 	}
 
 	/**
@@ -95,18 +101,26 @@ class UsersController extends \BaseController
         $rules = User::$rules;
         $record = User::findOrFail($id);
         $rules['email'] = 'required|email|unique:users,email,' . $record->id;
-        if (trim(\Input::get('password')) == '') {
+        if (trim(\Input::get('password')) == '')
+        {
             $rules['password'] = 'alpha_num|between:6,12|confirmed';
             $rules['password_confirmation'] = 'alpha_num|between:6,12';
         }
         $validator = \Validator::make(\Input::all(), $rules);
 
-        if ($validator->passes()) {
-            User::updateRecord($record, \Input::all());
+        if ($validator->passes())
+        {
+            $this->user->update($record, \Input::all());
 
-            return \Redirect::route('admin.users.index')->with('message', 'User has been edited successfully');
-        } else {
-            return \Redirect::route('admin.users.edit', $record->id)->with('message', 'The following errors occurred')->with('messageType', 'danger')->withErrors($validator)->withInput();
+            return \Redirect::route('admin.users.index')
+                ->with('message', 'User has been edited successfully');
+        }
+        else
+        {
+            return \Redirect::route('admin.users.edit', $record->id)
+                ->with('message', 'The following errors occurred')
+                ->with('messageType', 'danger')
+                ->withErrors($validator)->withInput();
         }
 	}
 
@@ -118,8 +132,7 @@ class UsersController extends \BaseController
 	 */
 	public function destroy($id)
 	{
-        $record = User::findOrFail($id);
-        $record->delete();
+        $this->user->delete($id);
 	}
 
 }

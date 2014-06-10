@@ -108,7 +108,8 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
         'Way\Generators\GeneratorsServiceProvider',
         'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
-        'Codesleeve\AssetPipeline\AssetPipelineServiceProvider'
+        'Codesleeve\AssetPipeline\AssetPipelineServiceProvider',
+        'Acme\Repositories\BackendServiceProvider'
 
 	),
 

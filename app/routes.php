@@ -11,8 +11,11 @@
 |
 */
 
-Route::get('/', 'App\Controllers\Index\HomeController@getIndex');
-Route::controller('home', 'App\Controllers\Index\HomeController');
+Route::get('/', 'App\Controllers\HomeController@getIndex');
+Route::controller('home', 'App\Controllers\HomeController');
+Route::get('login', 'App\Controllers\SessionsController@create');
+Route::get('logout', 'App\Controllers\SessionsController@destroy');
+Route::resource('sessions', 'App\Controllers\SessionsController', ['only' => ['create', 'store', 'destroy']]);
 
 /**
  * routes before auth filter

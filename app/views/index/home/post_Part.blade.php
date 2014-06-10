@@ -76,7 +76,7 @@
         <h3>Add Comment</h3>
         <hr class="dotted" />
 
-        {{ Form::open(array('action' => ['App\Controllers\Index\HomeController@postStore', $post->id], 'class' => 'form-horizontal')) }}
+        {{ Form::open(array('action' => ['App\Controllers\HomeController@postStore', $post->id], 'class' => 'form-horizontal')) }}
             @if($errors->all())
                 <div class="alert alert-danger">
                     <i class="fa fa-info-circle"></i> The following errors occurred:

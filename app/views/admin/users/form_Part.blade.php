@@ -54,7 +54,7 @@
         {{ Form::label('role', 'Role', ['class' => 'col-sm-2 control-label']) }}
 
         <div class="col-sm-10">
-            {{ Form::select('role', ['' => 'Select role', \App\Models\User::$adminRole => 'Administrator', \App\Models\User::$authorRole => 'Author'], null, array('class' => 'form-control', 'placeholder' => 'Role')) }}
+            {{ Form::select('role', ['' => 'Select role', \Acme\User::$adminRole => 'Administrator', \Acme\User::$authorRole => 'Author'], null, array('class' => 'form-control', 'placeholder' => 'Role')) }}
         </div>
     </div>
 

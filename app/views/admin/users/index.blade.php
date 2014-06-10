@@ -30,8 +30,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if($records->count())
-                            @foreach($records as $user)
+                        @if($users->count())
+                            @foreach($users as $user)
                                 <tr>
                                     <td>{{ $user->id }}</td>
                                     <td>{{ $user->firstname }}</td>

@@ -62,7 +62,7 @@ Route::filter('guest', function()
 
 Route::filter('admin', function()
 {
-    if (Auth::getUser()->role != \App\Models\User::$adminRole) {
+    if (Auth::getUser()->role != \Acme\User::$adminRole) {
         return Redirect::to('/admin/index');
     }
 });

@@ -1,14 +1,14 @@
-<?php
+<?php namespace Acme;
 
-namespace App\Models;
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
 
 /**
  * Class User
  *
+ * @package Acme
  */
-class User extends BaseModel implements UserInterface, RemindableInterface
+class User extends \Eloquent implements UserInterface, RemindableInterface
 {
 
     /**
@@ -22,6 +22,18 @@ class User extends BaseModel implements UserInterface, RemindableInterface
         'password' => 'required|alpha_num|between:6,12|confirmed',
         'password_confirmation' => 'required|alpha_num|between:6,12',
         'role' => 'required'
+    ];
+
+    /**
+     * @var array
+     *
+     */
+    protected $fillable = [
+        'firstname',
+        'lastname',
+        'email',
+        'password',
+        'role'
     ];
 
     /**
@@ -49,6 +61,16 @@ class User extends BaseModel implements UserInterface, RemindableInterface
      *
      */
     public static $authorRole = 'author';
+
+    /**
+     * function posts
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function posts()
+    {
+        return $this->hasMany('Acme\Post');
+    }
 
     /**
      * Get the unique identifier for the user.
@@ -81,48 +103,35 @@ class User extends BaseModel implements UserInterface, RemindableInterface
     }
 
     /**
-     * function posts
+     * Get the token value for the "remember me" session.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return string
      */
-    public function posts()
+    public function getRememberToken()
     {
-        return $this->hasMany('Post');
+        return parent::getRememberToken();
     }
 
     /**
-     * function store record
+     * Set the token value for the "remember me" session.
      *
-     * @param array $params params
+     * @param string $value
      *
-     * @return object
+     * @return void
      */
-    public static function storeRecord($params)
+    public function setRememberToken($value)
     {
-        unset($params['password_confirmation']);
-        $params['password'] = \Hash::make($params['password']);
-
-        return parent::storeRecord($params);
+        return parent::setRememberToken();
     }
 
     /**
-     * function update record
+     * Get the column name for the "remember me" token.
      *
-     * @param object $record record
-     * @param array $params params
-     *
-     * @return mixed
+     * @return string
      */
-    public static function updateRecord($record, $params)
+    public function getRememberTokenName()
     {
-        unset($params['password_confirmation']);
-        if (trim($params['password']) != '') {
-            $params['password'] = \Hash::make($params['password']);
-        } else {
-            unset($params['password']);
-        }
-
-        return parent::updateRecord($record, $params);
+        return parent::getRememberTokenName();
     }
 
 }

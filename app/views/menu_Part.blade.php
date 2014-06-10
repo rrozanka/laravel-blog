@@ -3,7 +3,7 @@
         {{ HTML::link('admin/index', 'Dashboard') }}
     </li>
 
-    @if(Auth::getUser()->role == \App\Models\User::$adminRole)
+    @if(Auth::getUser()->role == \Acme\User::$adminRole)
         <li class="@if(Request::is('admin/users*'))active@endif">
             {{ link_to_route('admin.users.index', 'Users') }}
         </li>
@@ -19,7 +19,7 @@
         {{ link_to_route('admin.posts.index', 'Posts') }}
     </li>
 
-    @if(Auth::getUser()->role == \App\Models\User::$adminRole)
+    @if(Auth::getUser()->role == \Acme\User::$adminRole)
         <li class="@if(Request::is('admin/settings*'))active@endif">
             {{ HTML::link('admin/settings', 'Settings') }}
         </li>

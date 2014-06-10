@@ -1,14 +1,30 @@
-<?php
+<?php namespace App\Controllers\Admin;
 
-namespace App\Controllers\Admin;
-use App\Models\Category;
+use Acme\Category;
+use App\Controllers\BaseController;
+use Acme\Repositories\CategoryRepositoryInterface;
 
 /**
  * Class CategoriesController
  *
  */
-class CategoriesController extends \BaseController
+class CategoriesController extends BaseController
 {
+
+    /**
+     * @var \Acme\Repositories\CategoryRepositoryInterface
+     *
+     */
+    protected $category;
+
+    /**
+     * function construct
+     *
+     */
+    public function __construct(CategoryRepositoryInterface $category)
+    {
+        $this->category = $category;
+    }
 
 	/**
 	 * Display a listing of the resource.
@@ -17,10 +33,10 @@ class CategoriesController extends \BaseController
 	 */
 	public function index()
 	{
-        $records = Category::all();
+        $categories = $this->category->getAll();
 
         return \View::make('admin.categories.index')
-            ->with('records', $records);
+            ->withCategories($categories);
 	}
 
 	/**
@@ -42,12 +58,20 @@ class CategoriesController extends \BaseController
 	{
         $validator = \Validator::make(\Input::all(), Category::$rules);
 
-        if ($validator->passes()) {
-            Category::storeRecord(\Input::all());
+        if ($validator->passes())
+        {
+            $this->category->create(\Input::all());
 
-            return \Redirect::route('admin.categories.index')->with('message', 'Category has been saved successfully');
-        } else {
-            return \Redirect::route('admin.categories.create')->with('message', 'The following errors occurred')->with('messageType', 'danger')->withErrors($validator)->withInput();
+            return \Redirect::route('admin.categories.index')
+                ->with('message', 'Category has been saved successfully');
+        }
+        else
+        {
+            return \Redirect::route('admin.categories.create')
+                ->with('message', 'The following errors occurred')
+                ->with('messageType', 'danger')
+                ->withErrors($validator)
+                ->withInput();
         }
 	}
 
@@ -76,12 +100,20 @@ class CategoriesController extends \BaseController
         $record = Category::findOrFail($id);
         $validator = \Validator::make(\Input::all(), Category::$rules);
 
-        if ($validator->passes()) {
-            Category::updateRecord($record, \Input::all());
+        if ($validator->passes())
+        {
+            $this->category->update($record, \Input::all());
 
-            return \Redirect::route('admin.categories.index')->with('message', 'Category has been edited successfully');
-        } else {
-            return \Redirect::route('admin.categories.edit', $record->id)->with('message', 'The following errors occurred')->with('messageType', 'danger')->withErrors($validator)->withInput();
+            return \Redirect::route('admin.categories.index')
+                ->with('message', 'Category has been edited successfully');
+        }
+        else
+        {
+            return \Redirect::route('admin.categories.edit', $record->id)
+                ->with('message', 'The following errors occurred')
+                ->with('messageType', 'danger')
+                ->withErrors($validator)
+                ->withInput();
         }
 	}
 

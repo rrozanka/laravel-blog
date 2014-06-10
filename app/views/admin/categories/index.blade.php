@@ -27,8 +27,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if($records->count())
-                            @foreach($records as $category)
+                        @if($categories->count())
+                            @foreach($categories as $category)
                                 <tr>
                                     <td>{{ $category->id }}</td>
                                     <td>{{ $category->name }}</td>

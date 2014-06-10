@@ -1,21 +1,28 @@
-<?php
+<?php namespace App\Controllers\Admin;
 
-namespace App\Controllers\Admin;
-use App\Models\Setting;
+use App\Controllers\BaseController;
+use Acme\Repositories\SettingRepositoryInterface;
 
 /**
  * Class SettingsController
  *
  */
-class SettingsController extends \BaseController {
+class SettingsController extends BaseController {
+
 
     /**
-     * construct function
+     * @var SettingRepositoryInterface
      *
      */
-    public function __construct()
+    protected $setting;
+
+    /**
+     * function construct
+     *
+     */
+    public function __construct(SettingRepositoryInterface $setting)
     {
-        $this->beforeFilter('admin');
+        $this->setting = $setting;
     }
 
 	/**
@@ -25,10 +32,10 @@ class SettingsController extends \BaseController {
 	 */
 	public function getIndex()
 	{
-        $settings = Setting::getSettings();
+        $settings = $this->setting->getSettings();
 
         return \View::make('admin.settings.index')
-            ->with('settings', $settings);
+            ->withSettings($settings);
 	}
 
     /**
@@ -37,7 +44,7 @@ class SettingsController extends \BaseController {
      */
     public function postStore()
     {
-        Setting::saveSettings(\Input::get('settings'));
+        $this->setting->saveSettings(\Input::get('settings'));
 
         return \Redirect::to('admin/settings/index')
             ->with('message', 'Settings has been saved successfully')

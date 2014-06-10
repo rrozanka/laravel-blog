@@ -20,15 +20,15 @@
                     </a>
 
                     @if(!Auth::check())
-                        <a class="blog-nav-item pull-right @if(Request::is('home/login'))active@endif" href="{{ URL::to('home/login') }}">
+                        <a class="blog-nav-item pull-right @if(Request::is('home/login'))active@endif" href="{{ URL::to('login') }}">
                             <i class="fa fa-sign-in"></i> {{ trans('messages.menu.login') }}
                         </a>
                     @else
                         <a class="blog-nav-item @if(!Request::is('/*') && !Request::is('home/*'))active@endif" href="{{ URL::to('admin/index') }}">
-                            <i class="fa fa-user"></i> @if(Auth::getUser()->role == \App\Models\User::$adminRole){{ 'Admin' }}@else{{ 'Author' }}@endif
+                            <i class="fa fa-user"></i> @if(Auth::getUser()->role == \Acme\User::$adminRole){{ 'Admin' }}@else{{ 'Author' }}@endif
                         </a>
 
-                        <a class="blog-nav-item pull-right" href="{{ URL::to('home/logout') }}">
+                        <a class="blog-nav-item pull-right" href="{{ URL::to('logout') }}">
                             <i class="fa fa-power-off"></i> {{ trans('messages.menu.logout') }}
                         </a>
                     @endif
@@ -51,6 +51,10 @@
         </div>
 
         <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/javascript">
+            var flashMessage = "{{ Session::get('flash_message') }}";
+            var flashMessageType = "{{ Session::get('flash_type') }}"
+        </script>
         <?= javascript_include_tag() ?>
         @yield('scripts')
     </body>

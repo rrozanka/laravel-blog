@@ -1,17 +1,33 @@
-<?php
+<?php namespace App\Controllers\Admin;
 
-namespace App\Controllers\Admin;
-use App\Models\Category;
-use App\Models\Tag;
-use App\Models\Post;
+use Acme\Tag;
+use Acme\Post;
+use Acme\Category;
 use App\Models\Utils;
+use App\Controllers\BaseController;
+use Acme\Repositories\PostRepositoryInterface;
 
 /**
  * Class PostsController
  *
  */
-class PostsController extends \BaseController
+class PostsController extends BaseController
 {
+
+    /**
+     * @var \Acme\Repositories\PostRepositoryInterface
+     *
+     */
+    protected $post;
+
+    /**
+     * function construct
+     *
+     */
+    public function __construct(PostRepositoryInterface $post)
+    {
+        $this->post = $post;
+    }
 
 	/**
 	 * Display a listing of the resource.
@@ -20,10 +36,10 @@ class PostsController extends \BaseController
 	 */
 	public function index()
 	{
-        $records = Post::with('user', 'category', 'tags')->get();
+        $posts = Post::with('user', 'category')->get();
 
 		return \View::make('admin.posts.index')
-            ->with('records', $records);
+            ->withPosts($posts);
 	}
 
 	/**
@@ -36,9 +52,9 @@ class PostsController extends \BaseController
         $categories = Utils::toSelectFormat(Category::all(), 'Select category');
         $tags = Utils::toSelectFormat(Tag::all());
 
-		return \View::make('admin.posts.create')
-            ->with('categories', $categories)
-            ->with('tags', $tags);
+        return \View::make('admin.posts.create')
+            ->withCategories($categories)
+            ->withTags($tags);
 	}
 
 	/**
@@ -50,15 +66,21 @@ class PostsController extends \BaseController
 	{
         $validator = \Validator::make(\Input::all(), Post::$rules);
 
-        if ($validator->passes()) {
-            $record = Post::storeRecord(\Input::all());
-
-            // attach post tags
+        if ($validator->passes())
+        {
+            $record = $this->post->create(\Input::all());
             $record->tags()->sync(\Input::get('tags', []));
 
-            return \Redirect::route('admin.posts.index')->with('message', 'Post has been saved successfully');
-        } else {
-            return \Redirect::route('admin.posts.create')->with('message', 'The following errors occurred')->with('messageType', 'danger')->withErrors($validator)->withInput();
+            return \Redirect::route('admin.posts.index')
+                ->with('message', 'Post has been saved successfully');
+        }
+        else
+        {
+            return \Redirect::route('admin.posts.create')
+                ->with('message', 'The following errors occurred')
+                ->with('messageType', 'danger')
+                ->withErrors($validator)
+                ->withInput();
         }
 	}
 
@@ -70,7 +92,7 @@ class PostsController extends \BaseController
 	 */
 	public function edit($id)
 	{
-        $record = Post::findOrFail($id);
+        $record = $this->post->getById($id);
         $categories = Utils::toSelectFormat(Category::all(), 'Select category');
         $tags = Utils::toSelectFormat(Tag::all());
         $tagsIds = Utils::getIds($record->tags()->get());
@@ -93,13 +115,21 @@ class PostsController extends \BaseController
         $record = Post::findOrFail($id);
         $validator = \Validator::make(\Input::all(), Post::$rules);
 
-        if ($validator->passes()) {
-            $record = Post::updateRecord($record, \Input::all());
+        if ($validator->passes())
+        {
+            $this->post->update($record, \Input::all());
             $record->tags()->sync(\Input::get('tags', []));
 
-            return \Redirect::route('admin.posts.index')->with('message', 'Post has been edited successfully');
-        } else {
-            return \Redirect::route('admin.posts.edit', $record->id)->with('message', 'The following errors occurred')->with('messageType', 'danger')->withErrors($validator)->withInput();
+            return \Redirect::route('admin.posts.index')
+                ->with('message', 'Post has been edited successfully');
+        }
+        else
+        {
+            return \Redirect::route('admin.posts.edit', $record->id)
+                ->with('message', 'The following errors occurred')
+                ->with('messageType', 'danger')
+                ->withErrors($validator)
+                ->withInput();
         }
 	}
 
@@ -111,8 +141,7 @@ class PostsController extends \BaseController
 	 */
 	public function destroy($id)
 	{
-        $record = Post::findOrFail($id);
-        $record->delete();
+        $this->post->delete($id);
 	}
 
 }

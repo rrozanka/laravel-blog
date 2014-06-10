@@ -2,14 +2,14 @@
 @section('content')
     <h2 class="form-signin-heading">Login</h2>
 
-    {{ Form::open(array('url' => 'home/login', 'id' => 'login-form', 'class' => 'form-horizontal')) }}
-        @if(Session::has('message'))
-            <div class="alert alert-{{ Session::get('messageType') }}">
-                <i class="fa fa-info-circle"></i> {{ Session::get('message') }}
+    {{ Form::open(['route' => 'sessions.store', 'id' => 'login-form', 'class' => 'form-horizontal']) }}
+        @if(Session::has('flash_message'))
+            <div class="alert alert-danger">
+                <i class="fa fa-info-circle"></i> {{ Session::get('flash_message') }}
             </div>
         @endif
 
-        <div class="form-group @if(Session::has('message'))has-error@endif">
+        <div class="form-group @if(Session::has('flash_message'))has-error@endif">
             {{ Form::label('email', 'E-mail', ['class' => 'col-sm-3 control-label']) }}
 
             <div class="col-sm-9">
@@ -17,7 +17,7 @@
             </div>
         </div>
 
-        <div class="form-group @if(Session::has('message'))has-error@endif">
+        <div class="form-group @if(Session::has('flash_message'))has-error@endif">
             {{ Form::label('password', 'Password', ['class' => 'col-sm-3 control-label']) }}
 
             <div class="col-sm-9">

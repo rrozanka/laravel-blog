@@ -1,12 +1,10 @@
-<?php
-
-namespace App\Models;
+<?php namespace Acme;
 
 /**
  * Class Tag
  *
  */
-class Tag extends BaseModel
+class Tag extends \Eloquent
 {
 
     /**
@@ -18,13 +16,21 @@ class Tag extends BaseModel
     ];
 
     /**
+     * @var array
+     *
+     */
+    protected $fillable = [
+        'name'
+    ];
+
+    /**
      * function posts
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     function posts()
     {
-        return $this->belongsToMany('\App\Models\Post');
+        return $this->belongsToMany('Acme\Post');
     }
 
 }

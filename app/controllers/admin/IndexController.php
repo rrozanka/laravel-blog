@@ -1,12 +1,13 @@
-<?php
+<?php namespace App\Controllers\Admin;
 
-namespace App\Controllers\Admin;
+use App\Controllers\BaseController;
 
 /**
  * Class IndexController
  *
+ * @package App\Controllers\Admin
  */
-class IndexController extends \BaseController {
+class IndexController extends BaseController {
 
 	/**
 	 * Display a listing of the resource.

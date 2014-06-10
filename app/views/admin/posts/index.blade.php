@@ -29,8 +29,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if($records->count())
-                            @foreach($records as $post)
+                        @if($posts->count())
+                            @foreach($posts as $post)
                                 <tr>
                                     <td>{{ $post->id }}</td>
                                     <td>{{ $post->name }}</td>

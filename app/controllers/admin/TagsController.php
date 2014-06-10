@@ -1,13 +1,29 @@
-<?php
+<?php namespace App\Controllers\Admin;
 
-namespace App\Controllers\Admin;
-use App\Models\Tag;
+use Acme\Tag;
+use App\Controllers\BaseController;
+use Acme\Repositories\TagRepositoryInterface;
 
 /**
  * Class TagsController
  *
  */
-class TagsController extends \BaseController {
+class TagsController extends BaseController {
+
+    /**
+     * @var \Acme\Repositories\TagRepositoryInterface
+     *
+     */
+    protected $tag;
+
+    /**
+     * function construct
+     *
+     */
+    public function __construct(TagRepositoryInterface $tag)
+    {
+        $this->tag = $tag;
+    }
 
 	/**
 	 * Display a listing of the resource.
@@ -16,10 +32,10 @@ class TagsController extends \BaseController {
 	 */
 	public function index()
 	{
-        $tags = Tag::all();
+        $tags = $this->tag->getAll();
 
         return \View::make('admin.tags.index')
-            ->with('records', $tags);
+            ->withTags($tags);
 	}
 
 	/**
@@ -41,12 +57,20 @@ class TagsController extends \BaseController {
 	{
         $validator = \Validator::make(\Input::all(), Tag::$rules);
 
-        if ($validator->passes()) {
-            Tag::storeRecord(\Input::all());
+        if ($validator->passes())
+        {
+            $this->tag->create(\Input::all());
 
-            return \Redirect::route('admin.tags.index')->with('message', 'Tag has been saved successfully');
-        } else {
-            return \Redirect::route('admin.tags.create')->with('message', 'The following errors occurred')->with('messageType', 'danger')->withErrors($validator)->withInput();
+            return \Redirect::route('admin.tags.index')
+                ->with('message', 'Tag has been saved successfully');
+        }
+        else
+        {
+            return \Redirect::route('admin.tags.create')
+                ->with('message', 'The following errors occurred')
+                ->with('messageType', 'danger')
+                ->withErrors($validator)
+                ->withInput();
         }
 	}
 
@@ -75,12 +99,20 @@ class TagsController extends \BaseController {
         $record = Tag::findOrFail($id);
         $validator = \Validator::make(\Input::all(), Tag::$rules);
 
-        if ($validator->passes()) {
-            Tag::updateRecord($record, \Input::all());
+        if ($validator->passes())
+        {
+            $this->tag->update($record, \Input::all());
 
-            return \Redirect::route('admin.tags.index')->with('message', 'Tag has been edited successfully');
-        } else {
-            return \Redirect::route('admin.tags.edit', $record->id)->with('message', 'The following errors occurred')->with('messageType', 'danger')->withErrors($validator)->withInput();
+            return \Redirect::route('admin.tags.index')
+                ->with('message', 'Tag has been edited successfully');
+        }
+        else
+        {
+            return \Redirect::route('admin.tags.edit', $record->id)
+                ->with('message', 'The following errors occurred')
+                ->with('messageType', 'danger')
+                ->withErrors($validator)
+                ->withInput();
         }
 	}
 
