@@ -10,9 +10,27 @@
 //
 // The available directives right now are require, require_directory, and require_tree
 //
+// require jquery
+// require_directory ../../../provider/assets/javascripts
+// require_tree .
+//
 //= require jquery
-//= require_directory ../../../provider/assets/javascripts
-//= require_tree .
+//= require bootstrap
+//= require jquery.dataTables
+//= require jquery.noty.packaged
+//= require summernote
+//= require global
+//= require categories
+//= require comments
+//= require posts
+//= require tags
+//= require users
+//= require plugins
+//= require jquery.easing
+//= require jquery.appear
+//= require jquery.cookie
+//= require jquery.validate
+//= require theme
 
 $(document).ready(function() {
     if (flashMessage.length) {

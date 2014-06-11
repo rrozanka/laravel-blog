@@ -1,4 +1,32 @@
-@extends('layout')
+@extends('layout-frontend')
+@section('breadcrumb')
+    <section class="page-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="breadcrumb">
+                        <li>
+                            <a href="{{ URL::to('home/index') }}">
+                                Strona główna
+                            </a>
+                        </li>
+                        <li class="active">
+                            Kategoria
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>
+                        {{ $category->name }}
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </section>
+@stop
+
 @section('content')
     @if(Session::has('message'))
         <div class="alert alert-{{ Session::get('messageType') }} margin-bottom-none">
@@ -6,41 +34,13 @@
         </div>
     @endif
 
-    <div class="blog-header">
-        <h1 class="blog-title">Laravel Blog</h1>
-        <p class="lead blog-description">The example of creating a blog with Laravel & Bootstrap.</p>
-    </div>
+    <div class="blog-posts">
+        @if($posts->count())
+            @foreach($posts as $key => $post)
+                @include('index.home.post_Part2')
+            @endforeach
+        @endif
 
-    <ol class="breadcrumb">
-        <li>
-            <a href="{{ URL::to('home/index') }}">Home</a>
-        </li>
-        <li class="active">
-            Category: {{ $category->name }}
-        </li>
-    </ol>
-
-    <div class="row">
-        <div class="col-sm-8 blog-main">
-            @if($posts->count())
-                @foreach($posts as $key => $post)
-                    @include('index.home.post_Part', ['post' => $post])
-
-                    @if($key != $posts->count() - 1)
-                        <hr class="dotted" />
-                    @endif
-                @endforeach
-            @else
-                <div class="alert alert-info">
-                    <i class="fa fa-info-circle"></i> No posts found.
-                </div>
-            @endif
-
-            {{ $posts->links() }}
-        </div>
-
-        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
-            @include('index.home.sidebar_Part')
-        </div>
+        {{ $posts->links() }}
     </div>
 @stop
