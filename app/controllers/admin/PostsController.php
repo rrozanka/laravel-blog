@@ -49,7 +49,7 @@ class PostsController extends BaseController
 	 */
 	public function create()
 	{
-        $categories = Utils::toSelectFormat(Category::all(), 'Select category');
+        $categories = Utils::toSelectFormat(Category::all(), 'Wybierz kategorię...');
         $tags = Utils::toSelectFormat(Tag::all());
 
         return \View::make('admin.posts.create')
@@ -72,13 +72,14 @@ class PostsController extends BaseController
             $record->tags()->sync(\Input::get('tags', []));
 
             return \Redirect::route('admin.posts.index')
-                ->with('message', 'Post has been saved successfully');
+                ->with('flash_message', 'Wpis został dodany pomyślnie.')
+                ->with('flash_type', 'success');
         }
         else
         {
             return \Redirect::route('admin.posts.create')
-                ->with('message', 'The following errors occurred')
-                ->with('messageType', 'danger')
+                ->with('flash_message', 'Wystąpiły błędy w formularzu!')
+                ->with('flash_type', 'error')
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -121,13 +122,14 @@ class PostsController extends BaseController
             $record->tags()->sync(\Input::get('tags', []));
 
             return \Redirect::route('admin.posts.index')
-                ->with('message', 'Post has been edited successfully');
+                ->with('flash_message', 'Wpis został zedytowany pomyślnie.')
+                ->with('flash_type', 'success');
         }
         else
         {
             return \Redirect::route('admin.posts.edit', $record->id)
-                ->with('message', 'The following errors occurred')
-                ->with('messageType', 'danger')
+                ->with('flash_message', 'Wystąpiły błędy w formularzu!')
+                ->with('flash_type', 'error')
                 ->withErrors($validator)
                 ->withInput();
         }

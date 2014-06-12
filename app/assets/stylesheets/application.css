@@ -21,5 +21,6 @@
  *= require skins/blue
  *= require theme-responsive
  *= require summernote
+ *= require jquery.dataTables
  *= require index
  */

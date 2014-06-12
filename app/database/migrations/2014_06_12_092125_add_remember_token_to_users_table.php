@@ -14,7 +14,9 @@ class AddRememberTokenToUsersTable extends Migration {
 	{
 		Schema::table('users', function(Blueprint $table)
 		{
-            $table->text('remember_token', 100);
+            $table->text('remember_token', 100)
+                ->nullable()
+                ->default(null);
 		});
 	}
 

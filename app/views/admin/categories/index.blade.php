@@ -8,13 +8,22 @@
         <div class="col-lg-10">
             <ol class="breadcrumb">
                 <li>
-                    <a href="{{ URL::to('admin/index') }}">Home</a>
+                    <a href="{{ URL::to('/') }}">
+                        <i class="icon icon-home"></i> Strona główna
+                    </a>
                 </li>
-                <li class="active">Categories</li>
+                <li>
+                    <a href="{{ URL::to('admin/index') }}">
+                        <i class="icon icon-wrench"></i> Admin
+                    </a>
+                </li>
+                <li class="active">
+                    <i class="icon icon-folder"></i> Kategorie
+                </li>
             </ol>
 
             <a class="btn btn-success margin-bottom-20" href="{{ URL::route('admin.categories.create') }}">
-                <i class="fa fa-plus"></i> Add New Category
+                <i class="icon icon-plus"></i> Dodaj Nową Kategorie
             </a>
 
             <div>
@@ -34,11 +43,11 @@
                                     <td>{{ $category->name }}</td>
                                     <td>
                                         <a class="btn btn-primary btn-xs" href="{{ URL::route('admin.categories.edit', $category->id) }}">
-                                            <i class="fa fa-pencil"></i>
+                                            <i class="icon icon-pencil"></i>
                                         </a>
 
                                         <a class="btn btn-danger btn-xs delete-record" href="{{ URL::route('admin.categories.destroy', $category->id) }}">
-                                            <i class="fa fa-trash-o"></i>
+                                            <i class="icon icon-trash-o"></i>
                                         </a>
                                     </td>
                                 </tr>

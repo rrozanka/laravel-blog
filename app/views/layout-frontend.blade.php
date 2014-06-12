@@ -105,7 +105,7 @@
                             </li>
                             <li class="dropdown @if(Request::is('home/tag/*'))active@endif">
                                 <a href="#" class="dropdown-toggle">
-                                    <i class="icon icon-tag"></i> Tagi <i class="icon icon-angle-down"></i>
+                                    <i class="icon icon-tags"></i> Tagi <i class="icon icon-angle-down"></i>
                                 </a>
 
                                 @if($tags)
@@ -124,7 +124,7 @@
                             @if(Auth::check())
                                 <li>
                                     <a href="{{ URL::to('admin/index') }}">
-                                        <i class="icon icon-cogs"></i> Admin
+                                        <i class="icon icon-wrench"></i> Admin
                                     </a>
                                 </li>
 

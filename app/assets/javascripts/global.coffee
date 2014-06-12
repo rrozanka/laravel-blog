@@ -7,7 +7,7 @@ $(document).ready ->
       timeout: 2500
 
 $(document).on 'click', '.delete-record', ->
-  if confirm('Do you really want to delete this record?')
+  if confirm('Czy na pewno chcesz usunąć ten wpis?')
     $.ajax
         url: $(this).attr('href'),
         type: 'DELETE',

@@ -1,8 +1,9 @@
 {{ Form::model($record, array('route' => ($record) ? ['admin.users.update', $record->id] : ['admin.users.store'], 'class' => 'form-horizontal', 'method' => ($record) ? 'put' : 'post')) }}
     @if($errors->all())
         <div class="alert alert-danger">
-            <i class="fa fa-info-circle"></i> The following errors occurred:
-            <ul class="padding-left-15">
+            <i class="fa fa-info-circle"></i> Wystąpiły błędy w formularzu:
+
+            <ul>
                 @foreach($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
@@ -61,8 +62,8 @@
     <div class="form-group">
         <div class="col-sm-2"></div>
         <div class="col-sm-10">
-            <button class="btn btn-primary" type="submit">
-                <i class="fa fa-check"></i> Submit
+            <button class="btn btn-success" type="submit">
+                <i class="icon icon-check"></i> Zapisz
             </button>
         </div>
     </div>

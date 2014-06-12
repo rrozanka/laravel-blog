@@ -64,13 +64,14 @@ class UsersController extends BaseController
             $this->user->create(\Input::all());
 
             return \Redirect::route('admin.users.index')
-                ->with('message', 'User has been saved successfully');
+                ->with('flash_message', 'Użytkownik został dodany pomyślnie.')
+                ->with('flash_type', 'success');
         }
         else
         {
             return \Redirect::route('admin.users.create')
-                ->with('message', 'The following errors occurred')
-                ->with('messageType', 'danger')
+                ->with('flash_message', 'Wystąpiły błędy w formularzu!')
+                ->with('flash_type', 'error')
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -113,13 +114,14 @@ class UsersController extends BaseController
             $this->user->update($record, \Input::all());
 
             return \Redirect::route('admin.users.index')
-                ->with('message', 'User has been edited successfully');
+                ->with('flash_message', 'Użytkownik został zedytowany pomyślnie.')
+                ->with('flash_type', 'success');
         }
         else
         {
             return \Redirect::route('admin.users.edit', $record->id)
-                ->with('message', 'The following errors occurred')
-                ->with('messageType', 'danger')
+                ->with('flash_message', 'Wystąpiły błędy w formularzu!')
+                ->with('flash_type', 'error')
                 ->withErrors($validator)->withInput();
         }
 	}

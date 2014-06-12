@@ -8,12 +8,23 @@
         <div class="col-lg-10">
             <ol class="breadcrumb">
                 <li>
-                    <a href="{{ URL::to('admin/index') }}">Home</a>
+                    <a href="{{ URL::to('/') }}">
+                        <i class="icon icon-home"></i> Strona główna
+                    </a>
                 </li>
                 <li>
-                    <a href="{{ URL::route('admin.categories.index') }}">Categories</a>
+                    <a href="{{ URL::to('admin/index') }}">
+                        <i class="icon icon-wrench"></i> Admin
+                    </a>
                 </li>
-                <li class="active">Add New Category</li>
+                <li>
+                    <a href="{{ URL::route('admin.categories.index') }}">
+                        <i class="icon icon-folder"></i> Kategorie
+                    </a>
+                </li>
+                <li class="active">
+                    <i class="icon icon-plus"></i> Dodaj Nową Kategorie
+                </li>
             </ol>
 
             @include('admin/categories/form_Part', ['record' => null])

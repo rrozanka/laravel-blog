@@ -5,9 +5,9 @@ use App\Controllers\BaseController;
 /**
  * Class IndexController
  *
- * @package App\Controllers\Admin
  */
-class IndexController extends BaseController {
+class IndexController extends BaseController
+{
 
 	/**
 	 * Display a listing of the resource.
@@ -16,7 +16,7 @@ class IndexController extends BaseController {
 	 */
 	public function getIndex()
 	{
-        return \View::make('admin.index.index');
+        return \Redirect::route('admin.posts.index');
 	}
 
 }

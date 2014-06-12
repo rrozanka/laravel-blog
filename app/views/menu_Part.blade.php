@@ -1,30 +1,46 @@
 <ul class="nav nav-pills nav-stacked">
-    <li class="@if(Request::is('admin/index'))active@endif">
-        {{ HTML::link('admin/index', 'Dashboard') }}
+    <li>
+        <a href="{{ URL::to('/') }}">
+            <i class="icon icon-home"></i> Strona główna
+        </a>
     </li>
 
     @if(Auth::getUser()->role == \Acme\User::$adminRole)
         <li class="@if(Request::is('admin/users*'))active@endif">
-            {{ link_to_route('admin.users.index', 'Users') }}
+            <a href="{{ URL::route('admin.users.index') }}">
+                <i class="icon icon-users"></i> Użytkownicy
+            </a>
+        </li>
+        <li class="@if(Request::is('admin/settings*'))active@endif">
+            <a href="{{ URL::to('admin/settings') }}">
+                <i class="icon icon-cogs"></i> Ustawienia
+            </a>
+        </li>
+        <li class="@if(Request::is('admin/comments*'))active@endif">
+            <a href="{{ URL::route('admin.comments.index') }}">
+                <i class="icon icon-comments"></i> Komentarze
+            </a>
         </li>
     @endif
 
     <li class="@if(Request::is('admin/categories*'))active@endif">
-        {{ link_to_route('admin.categories.index', 'Categories') }}
+        <a href="{{ URL::route('admin.categories.index') }}">
+            <i class="icon icon-folder"></i> Kategorie
+        </a>
     </li>
     <li class="@if(Request::is('admin/tags*'))active@endif">
-        {{ link_to_route('admin.tags.index', 'Tags') }}
+        <a href="{{ URL::route('admin.tags.index') }}">
+            <i class="icon icon-tags"></i> Tagi
+        </a>
     </li>
     <li class="@if(Request::is('admin/posts*'))active@endif">
-        {{ link_to_route('admin.posts.index', 'Posts') }}
+        <a href="{{ URL::route('admin.posts.index') }}">
+            <i class="icon icon-pencil"></i> Wpisy
+        </a>
     </li>
-
-    @if(Auth::getUser()->role == \Acme\User::$adminRole)
-        <li class="@if(Request::is('admin/settings*'))active@endif">
-            {{ HTML::link('admin/settings', 'Settings') }}
-        </li>
-        <li class="@if(Request::is('admin/comments*'))active@endif">
-            {{ link_to_route('admin.comments.index', 'Comments') }}
-        </li>
-    @endif
+    <li>
+        <a href="{{ URL::to('logout') }}">
+            <i class="icon icon-sign-out"></i> Wyloguj się
+        </a>
+    </li>
 </ul>

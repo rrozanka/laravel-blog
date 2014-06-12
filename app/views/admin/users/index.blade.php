@@ -8,13 +8,22 @@
         <div class="col-lg-10">
             <ol class="breadcrumb">
                 <li>
-                    <a href="{{ URL::to('admin/index') }}">Home</a>
+                    <a href="{{ URL::to('/') }}">
+                        <i class="icon icon-home"></i> Strona główna
+                    </a>
                 </li>
-                <li class="active">Users</li>
+                <li>
+                    <a href="{{ URL::to('admin/index') }}">
+                        <i class="icon icon-wrench"></i> Admin
+                    </a>
+                </li>
+                <li class="active">
+                    <i class="icon icon-users"></i> Użytkownicy
+                </li>
             </ol>
 
             <a class="btn btn-success margin-bottom-20" href="{{ URL::route('admin.users.create') }}">
-                <i class="fa fa-plus"></i> Add New User
+                <i class="icon icon-plus"></i> Dodaj Nowego Użytkownika
             </a>
 
             <div>
@@ -40,11 +49,11 @@
                                     <td>{{ $user->role }}</td>
                                     <td>
                                         <a class="btn btn-primary btn-xs" href="{{ URL::route('admin.users.edit', $user->id) }}">
-                                            <i class="fa fa-pencil"></i>
+                                            <i class="icon icon-pencil"></i>
                                         </a>
 
                                         <a class="btn btn-danger btn-xs delete-record" href="{{ URL::route('admin.users.destroy', $user->id) }}">
-                                            <i class="fa fa-trash-o"></i>
+                                            <i class="icon icon-trash-o"></i>
                                         </a>
                                     </td>
                                 </tr>

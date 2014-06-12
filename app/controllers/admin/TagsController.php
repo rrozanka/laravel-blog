@@ -62,13 +62,14 @@ class TagsController extends BaseController {
             $this->tag->create(\Input::all());
 
             return \Redirect::route('admin.tags.index')
-                ->with('message', 'Tag has been saved successfully');
+                ->with('flash_message', 'Tag został dodany pomyślnie.')
+                ->with('flash_type', 'success');
         }
         else
         {
             return \Redirect::route('admin.tags.create')
-                ->with('message', 'The following errors occurred')
-                ->with('messageType', 'danger')
+                ->with('flash_message', 'Wystąpiły błędy w formularzu!')
+                ->with('flash_type', 'error')
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -104,13 +105,14 @@ class TagsController extends BaseController {
             $this->tag->update($record, \Input::all());
 
             return \Redirect::route('admin.tags.index')
-                ->with('message', 'Tag has been edited successfully');
+                ->with('flash_message', 'Tag został zedytowany pomyślnie.')
+                ->with('flash_type', 'success');
         }
         else
         {
             return \Redirect::route('admin.tags.edit', $record->id)
-                ->with('message', 'The following errors occurred')
-                ->with('messageType', 'danger')
+                ->with('flash_message', 'Wystąpiły błędy w formularzu!')
+                ->with('flash_type', 'error')
                 ->withErrors($validator)
                 ->withInput();
         }

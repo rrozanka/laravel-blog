@@ -8,9 +8,18 @@
         <div class="col-lg-10">
             <ol class="breadcrumb">
                 <li>
-                    <a href="{{ URL::to('admin/index') }}">Home</a>
+                    <a href="{{ URL::to('/') }}">
+                        <i class="icon icon-home"></i> Strona główna
+                    </a>
                 </li>
-                <li class="active">Comments</li>
+                <li>
+                    <a href="{{ URL::to('admin/index') }}">
+                        <i class="icon icon-wrench"></i> Admin
+                    </a>
+                </li>
+                <li class="active">
+                    <i class="icon icon-comments"></i> Komentarze
+                </li>
             </ol>
 
             <div>
@@ -34,7 +43,7 @@
                                     <td>{{ ViewHelper::short($record->body, 75) }}</td>
                                     <td>
                                         <a class="btn btn-danger btn-xs delete-record" href="{{ URL::route('admin.comments.destroy', $record->id) }}">
-                                            <i class="fa fa-trash-o"></i>
+                                            <i class="icon icon-trash-o"></i>
                                         </a>
                                     </td>
                                 </tr>

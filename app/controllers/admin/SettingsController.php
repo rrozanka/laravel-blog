@@ -47,8 +47,8 @@ class SettingsController extends BaseController {
         $this->setting->saveSettings(\Input::get('settings'));
 
         return \Redirect::to('admin/settings/index')
-            ->with('message', 'Settings has been saved successfully')
-            ->with('messageType', 'success');
+            ->with('flash_message', 'Ustawienia zostały zapisane pomyślnie.')
+            ->with('flash_type', 'success');
     }
 
 }

@@ -63,13 +63,14 @@ class CategoriesController extends BaseController
             $this->category->create(\Input::all());
 
             return \Redirect::route('admin.categories.index')
-                ->with('message', 'Category has been saved successfully');
+                ->with('flash_message', 'Kategoria została dodana pomyślnie.')
+                ->with('flash_type', 'success');
         }
         else
         {
             return \Redirect::route('admin.categories.create')
-                ->with('message', 'The following errors occurred')
-                ->with('messageType', 'danger')
+                ->with('flash_message', 'Wystąpiły błędy w formularzu!')
+                ->with('flash_type', 'error')
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -105,13 +106,14 @@ class CategoriesController extends BaseController
             $this->category->update($record, \Input::all());
 
             return \Redirect::route('admin.categories.index')
-                ->with('message', 'Category has been edited successfully');
+                ->with('flash_message', 'Kategoria została zedytowana pomyślnie.')
+                ->with('flash_type', 'success');
         }
         else
         {
             return \Redirect::route('admin.categories.edit', $record->id)
-                ->with('message', 'The following errors occurred')
-                ->with('messageType', 'danger')
+                ->with('flash_message', 'Wystąpiły błędy w formularzu!')
+                ->with('flash_type', 'error')
                 ->withErrors($validator)
                 ->withInput();
         }
