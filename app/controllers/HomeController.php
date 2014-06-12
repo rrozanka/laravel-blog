@@ -81,7 +81,7 @@ class HomeController extends BaseController
     public function getIndex()
     {
         return \View::make('index.home.index')
-            ->with('posts', Post::with('user', 'category', 'tags')->paginate(15));
+            ->with('posts', Post::with('user', 'category', 'tags')->orderBy('created_at', 'desc')->paginate(15));
     }
 
     /**
@@ -94,7 +94,7 @@ class HomeController extends BaseController
 
         return \View::make('index.home.category')
             ->with('category', $category)
-            ->with('posts', $category->posts()->paginate(15));
+            ->with('posts', $category->posts()->orderBy('created_at', 'desc')->paginate(15));
     }
 
     /**
@@ -107,7 +107,7 @@ class HomeController extends BaseController
 
         return \View::make('index.home.tag')
             ->with('tag', $tag)
-            ->with('posts', $tag->posts()->paginate(15));
+            ->with('posts', $tag->posts()->orderBy('created_at', 'desc')->paginate(15));
     }
 
     /**
@@ -120,7 +120,7 @@ class HomeController extends BaseController
 
         return \View::make('index.home.author')
             ->with('author', $author)
-            ->with('posts', $author->posts()->paginate(15));
+            ->with('posts', $author->posts()->orderBy('created_at', 'desc')->paginate(15));
     }
 
     /**
@@ -142,7 +142,7 @@ class HomeController extends BaseController
     public function getSearch()
     {
         return \View::make('index.home.search')
-            ->with('posts', $this->post->search(\Input::get('q'))->paginate(15));
+            ->with('posts', $this->post->search(\Input::get('q'))->orderBy('created_at', 'desc')->paginate(15));
     }
 
     /**
