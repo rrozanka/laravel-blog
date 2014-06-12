@@ -109,7 +109,7 @@ class User extends \Eloquent implements UserInterface, RemindableInterface
      */
     public function getRememberToken()
     {
-        return parent::getRememberToken();
+        //
     }
 
     /**
@@ -121,7 +121,7 @@ class User extends \Eloquent implements UserInterface, RemindableInterface
      */
     public function setRememberToken($value)
     {
-        return parent::setRememberToken();
+        //
     }
 
     /**
@@ -131,7 +131,7 @@ class User extends \Eloquent implements UserInterface, RemindableInterface
      */
     public function getRememberTokenName()
     {
-        return parent::getRememberTokenName();
+        return 'remember_token';
     }
 
 }

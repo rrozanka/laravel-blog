@@ -3,10 +3,11 @@
 use Acme\Post;
 use Acme\Comment;
 use Acme\Repositories\TagRepositoryInterface;
-use Acme\Repositories\SettingRepositoryInterface;
-use Acme\Repositories\CategoryRepositoryInterface;
-use Acme\Repositories\CommentRepositoryInterface;
 use Acme\Repositories\PostRepositoryInterface;
+use Acme\Repositories\UserRepositoryInterface;
+use Acme\Repositories\SettingRepositoryInterface;
+use Acme\Repositories\CommentRepositoryInterface;
+use Acme\Repositories\CategoryRepositoryInterface;
 
 /**
  * Class HomeController
@@ -46,16 +47,31 @@ class HomeController extends BaseController
     protected $post;
 
     /**
+     * @var \Acme\Repositories\UserRepositoryInterface
+     *
+     */
+    protected $user;
+
+    /**
      * function construct
      *
      */
-    public function __construct(CategoryRepositoryInterface $category, SettingRepositoryInterface $setting, TagRepositoryInterface $tag, CommentRepositoryInterface $comment, PostRepositoryInterface $post)
+    public function __construct(CategoryRepositoryInterface $category, SettingRepositoryInterface $setting, TagRepositoryInterface $tag, CommentRepositoryInterface $comment, PostRepositoryInterface $post, UserRepositoryInterface $user)
     {
         $this->category = $category;
         $this->setting = $setting;
         $this->tag = $tag;
         $this->comment = $comment;
         $this->post = $post;
+        $this->user = $user;
+
+        \View::composer('layout-frontend', function($view)
+        {
+            $view->with('categories', $this->category->getAll())
+                ->with('tags', $this->tag->getAll())
+                ->with('about', $this->setting->getValueByKey('about'))
+                ->with('authors', $this->user->getAll());
+        });
     }
 
     /**
@@ -65,10 +81,7 @@ class HomeController extends BaseController
     public function getIndex()
     {
         return \View::make('index.home.index')
-            ->with('posts', Post::with('user', 'category', 'tags')->paginate(15))
-            ->with('categories', $this->category->getAll())
-            ->with('tags', $this->tag->getAll())
-            ->with('about', $this->setting->getValueByKey('about'));
+            ->with('posts', Post::with('user', 'category', 'tags')->paginate(15));
     }
 
     /**
@@ -81,10 +94,7 @@ class HomeController extends BaseController
 
         return \View::make('index.home.category')
             ->with('category', $category)
-            ->with('posts', $category->posts()->paginate(15))
-            ->with('categories', $this->category->getAll())
-            ->with('tags', $this->tag->getAll())
-            ->with('about', $this->setting->getValueByKey('about'));
+            ->with('posts', $category->posts()->paginate(15));
     }
 
     /**
@@ -97,10 +107,20 @@ class HomeController extends BaseController
 
         return \View::make('index.home.tag')
             ->with('tag', $tag)
-            ->with('posts', $tag->posts()->paginate(15))
-            ->with('categories', $this->category->getAll())
-            ->with('tags', $this->tag->getAll())
-            ->with('about', $this->setting->getValueByKey('about'));
+            ->with('posts', $tag->posts()->paginate(15));
+    }
+
+    /**
+     * author action
+     *
+     */
+    public function getAuthor($id)
+    {
+        $author = $this->user->getById($id);
+
+        return \View::make('index.home.author')
+            ->with('author', $author)
+            ->with('posts', $author->posts()->paginate(15));
     }
 
     /**
@@ -112,10 +132,17 @@ class HomeController extends BaseController
         $post = $this->post->getById($id);
 
         return \View::make('index.home.post')
-            ->with('post', $post)
-            ->with('categories', $this->category->getAll())
-            ->with('tags', $this->tag->getAll())
-            ->with('about', $this->setting->getValueByKey('about'));
+            ->with('post', $post);
+    }
+
+    /**
+     * search action
+     *
+     */
+    public function getSearch()
+    {
+        return \View::make('index.home.search')
+            ->with('posts', $this->post->search(\Input::get('q'))->paginate(15));
     }
 
     /**
@@ -131,14 +158,17 @@ class HomeController extends BaseController
         {
             $this->comment->create($post->id, \Input::all());
 
-            return \Redirect::action('App\Controllers\Index\HomeController@getPost', $post->id)
-                ->with('message', 'Comment has been saved successfully');
+            return \Redirect::action('App\Controllers\HomeController@getPost', $post->id)
+                ->with('flash_message', 'Komentarz został dodany pomyślnie.')
+                ->with('flash_type', 'success');
         }
         else
         {
-            return \Redirect::action('App\Controllers\Index\HomeController@getPost', $post->id)
+            return \Redirect::action('App\Controllers\HomeController@getPost', $post->id)
                 ->withErrors($validator)
-                ->withInput();
+                ->withInput()
+                ->with('flash_message', 'Wystąpiły błędy w formularzu!')
+                ->with('flash_type', 'error');
         }
     }
 

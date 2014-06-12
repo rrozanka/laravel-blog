@@ -28,12 +28,6 @@
 @stop
 
 @section('content')
-    @if(Session::has('message'))
-        <div class="alert alert-{{ Session::get('messageType') }} margin-bottom-none">
-            <i class="fa fa-info-circle"></i> {{ Session::get('message') }}
-        </div>
-    @endif
-
     <div class="blog-posts single-post">
         <article class="post post-large blog-single-post">
             <div class="post-date">
@@ -55,9 +49,9 @@
 
                 <div class="post-meta">
                     <span>
-                        <i class="icon icon-user"></i> Autor
+                        <i class="icon icon-user"></i>
 
-                        <a href="#">
+                        <a href="{{ URL::to('home/author', [$post->user->id, Str::slug($post->user->firstname . ' ' . $post->user->lastname)]) }}">
                             {{ $post->user->firstname . ' ' . $post->user->lastname }}
                         </a>
                     </span>
@@ -97,39 +91,37 @@
 
                 {{ nl2br($post->body) }}
 
-                <div class="post-block post-comments clearfix">
-                    <h3>
-                        <i class="icon icon-comments"></i> Komentarze (1)
-                    </h3>
+                @if($post->comments->count())
+                    <div class="post-block post-comments clearfix">
+                        <h3>
+                            <i class="icon icon-comments"></i> Komentarze ({{ $post->comments->count() }})
+                        </h3>
 
-                    <ul class="comments">
-                        <li>
-                            <div class="comment">
-                                <div class="img-thumbnail">
-                                    <img class="avatar" alt="" src="http://placehold.it/80x80">
-                                </div>
+                        <ul class="comments">
+                            @foreach($post->comments as $comment)
+                                <li>
+                                    <div class="comment">
+                                        <div class="comment-block">
+                                            <span class="comment-by">
+                                                <strong>
+                                                    {{ $comment->name }}
+                                                </strong>
+                                            </span>
 
-                                <div class="comment-block">
-                                    <div class="comment-arrow"></div>
+                                            <p>
+                                                {{ nl2br($comment->body) }}
+                                            </p>
 
-                                    <span class="comment-by">
-                                        <strong>
-                                            John Doe
-                                        </strong>
-                                    </span>
-
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae, gravida pellentesque urna varius vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae. Sed dui lorem, adipiscing in adipiscing et, interdum nec metus. Mauris ultricies, justo eu convallis placerat, felis enim ornare nisi, vitae mattis nulla ante id dui.
-                                    </p>
-
-                                    <span class="date pull-right">
-                                        January 12, 2013 at 1:38 pm
-                                    </span>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+                                            <span class="date pull-right">
+                                                {{ ViewHelper::outputDate($comment->created_at, 'F d, Y \a\t H:i:s') }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
 
                 <div class="post-block post-leave-comment">
                     <h3>
@@ -138,27 +130,55 @@
 
                     {{ Form::open(array('action' => ['App\Controllers\HomeController@postStore', $post->id])) }}
                         <div class="row">
-                            <div class="form-group">
+                            <div class="form-group @if($errors->has('name'))has-error@endif">
                                 <div class="col-md-6">
                                     {{ Form::label('name', 'Imię *') }}
 
                                     {{ Form::text('name', null, array('class' => 'form-control', 'placeholder' => 'Wprowadź Imię')) }}
-                                </div>
 
-                                <div class="col-md-6">
-                                    {{ Form::label('email', 'E-mail *') }}
-
-                                    {{ Form::text('email', null, array('class' => 'form-control', 'placeholder' => 'Wprowadź E-mail')) }}
+                                    @if($errors->has('name'))
+                                        @foreach($errors->get('name') as $error)
+                                            <span class="help-block margin-bottom-none">
+                                                {{ $error }}
+                                            </span>
+                                        @endforeach
+                                    @endif
                                 </div>
                             </div>
                         </div>
 
                         <div class="row">
-                            <div class="form-group">
+                            <div class="form-group @if($errors->has('email'))has-error@endif">
+                                <div class="col-md-6">
+                                    {{ Form::label('email', 'E-mail *') }}
+
+                                    {{ Form::text('email', null, array('class' => 'form-control', 'placeholder' => 'Wprowadź E-mail')) }}
+
+                                    @if($errors->has('email'))
+                                        @foreach($errors->get('email') as $error)
+                                            <span class="help-block margin-bottom-none">
+                                                {{ $error }}
+                                            </span>
+                                        @endforeach
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group @if($errors->has('body'))has-error@endif">
                                 <div class="col-md-12">
                                     {{ Form::label('comment', 'Komentarz *') }}
 
-                                    {{ Form::textarea('comment', null, array('class' => 'form-control', 'rows' => '10', 'placeholder' => 'Wprowadź Komentarz')) }}
+                                    {{ Form::textarea('comment', null, array('name' => 'body', 'class' => 'form-control', 'rows' => '10', 'placeholder' => 'Wprowadź Komentarz')) }}
+
+                                    @if($errors->has('body'))
+                                        @foreach($errors->get('body') as $error)
+                                            <span class="help-block margin-bottom-none">
+                                                {{ $error }}
+                                            </span>
+                                        @endforeach
+                                    @endif
                                 </div>
                             </div>
                         </div>

@@ -28,16 +28,10 @@
 @stop
 
 @section('content')
-    @if(Session::has('message'))
-        <div class="alert alert-{{ Session::get('messageType') }} margin-bottom-none">
-            <i class="fa fa-info-circle"></i> {{ Session::get('message') }}
-        </div>
-    @endif
-
     <div class="blog-posts">
         @if($posts->count())
             @foreach($posts as $key => $post)
-                @include('index.home.post_Part2')
+                @include('index.home.post_Part')
             @endforeach
         @endif
 

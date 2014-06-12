@@ -31,14 +31,3 @@
 //= require jquery.cookie
 //= require jquery.validate
 //= require theme
-
-$(document).ready(function() {
-    if (flashMessage.length) {
-        noty({
-            text: flashMessage,
-            layout: 'bottomLeft',
-            type: flashMessageType,
-            timeout: 2500
-        });
-    }
-});

@@ -11,7 +11,7 @@
                             </a>
                         </li>
                         <li class="active">
-                            Kategoria
+                            Szukaj
                         </li>
                     </ul>
                 </div>
@@ -19,7 +19,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <h2>
-                        {{ $category->name }}
+                        {{ \Input::get('q') }}
                     </h2>
                 </div>
             </div>

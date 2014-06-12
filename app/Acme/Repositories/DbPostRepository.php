@@ -82,4 +82,17 @@ class DbPostRepository implements PostRepositoryInterface
         return true;
     }
 
+    /**
+     * function search
+     *
+     * @param $q
+     *
+     * @return mixed
+     */
+    public function search($q)
+    {
+        return Post::where('name', 'like', '%' . $q . '%')
+            ->orWhere('short_body', 'like', '%' . $q . '%')
+            ->orWhere('body', 'like', '%' . $q . '%');
+    }
 }

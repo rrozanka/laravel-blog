@@ -23,15 +23,17 @@
                     </a>
                 </h1>
                 <div class="search">
-                    <form id="searchForm" action="page-search-results.html" method="get">
+                    {{ Form::open(array('action' => 'App\Controllers\HomeController@getSearch', 'method' => 'get')) }}
                         <div class="input-group">
-                            <input type="text" class="form-control search" name="q" id="q" placeholder="Szukaj...">
+                            {{ Form::text('q', Input::get('q'), array('class' => 'form-control search', 'placeholder' => 'Szukaj...')) }}
 
                             <span class="input-group-btn">
-                                <button class="btn btn-default" type="submit"><i class="icon icon-search"></i></button>
+                                <button class="btn btn-default" type="submit">
+                                    <i class="icon icon-search"></i>
+                                </button>
                             </span>
                         </div>
-                    </form>
+                    {{ Form::close() }}
                 </div>
                 <button class="btn btn-responsive-nav btn-inverse" data-toggle="collapse" data-target=".nav-main-collapse">
                     <i class="icon icon-bars"></i>
@@ -62,12 +64,29 @@
 
                     <nav class="nav-main mega-menu">
                         <ul class="nav nav-pills nav-main" id="mainMenu">
-                            <li class="active">
-                                <a href="#">
+                            <li class="@if(Request::is('/') || Request::is('home/index') || Request::is('home/post/*'))active@endif">
+                                <a href="{{ URL::to('/') }}">
                                     <i class="icon icon-home"></i> Strona główna
                                 </a>
                             </li>
-                            <li class="dropdown">
+                            <li class="dropdown @if(Request::is('home/author/*'))active@endif">
+                                <a href="#" class="dropdown-toggle">
+                                    <i class="icon icon-users"></i> Autorzy <i class="icon icon-angle-down"></i>
+                                </a>
+
+                                @if($authors)
+                                    <ul class="dropdown-menu">
+                                        @foreach($authors as $author)
+                                            <li>
+                                                <a href="{{ URL::to('home/author', [$author->id, Str::slug($author->firstname . ' ' . $author->lastname)]) }}">
+                                                    {{ $author->firstname . ' ' . $author->lastname }}
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @endif
+                            </li>
+                            <li class="dropdown @if(Request::is('home/category/*'))active@endif">
                                 <a href="#" class="dropdown-toggle">
                                     <i class="icon icon-folder"></i> Kategorie <i class="icon icon-angle-down"></i>
                                 </a>
@@ -84,7 +103,7 @@
                                     </ul>
                                 @endif
                             </li>
-                            <li class="dropdown">
+                            <li class="dropdown @if(Request::is('home/tag/*'))active@endif">
                                 <a href="#" class="dropdown-toggle">
                                     <i class="icon icon-tag"></i> Tagi <i class="icon icon-angle-down"></i>
                                 </a>
@@ -101,6 +120,26 @@
                                     </ul>
                                 @endif
                             </li>
+
+                            @if(Auth::check())
+                                <li>
+                                    <a href="{{ URL::to('admin/index') }}">
+                                        <i class="icon icon-cogs"></i> Admin
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="{{ URL::to('logout') }}">
+                                        <i class="icon icon-sign-out"></i> Wyloguj się
+                                    </a>
+                                </li>
+                            @else
+                                <li class="@if(Request::is('login'))active@endif">
+                                    <a href="{{ URL::to('login') }}">
+                                        <i class="icon icon-sign-in"></i> Logowanie
+                                    </a>
+                                </li>
+                            @endif
                         </ul>
                     </nav>
                 </div>
@@ -111,59 +150,63 @@
             @yield('breadcrumb')
 
             <div class="container">
-                <div class="row">
-                    <div class="col-md-9">
-                        @yield('content')
+                @if(!isset($hideSidebar))
+                    <div class="row">
+                        <div class="col-md-9">
+                            @yield('content')
+                        </div>
+
+                        <div class="col-md-3">
+                            <aside class="sidebar">
+                                <h4>
+                                    Kategorie
+                                </h4>
+
+                                @if($categories)
+                                    <ul class="nav nav-list primary push-bottom">
+                                        @foreach($categories as $category)
+                                            <li>
+                                                <a href="{{ URL::to('home/category', [$category->id, Str::slug($category->name)]) }}">
+                                                    {{ $category->name }}
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @endif
+
+                                <hr>
+
+                                <h4>
+                                    Tagi
+                                </h4>
+
+                                @if($tags)
+                                    <ul class="nav nav-list primary push-bottom">
+                                        @foreach($tags as $tag)
+                                            <li>
+                                                <a href="{{ URL::to('home/tag', [$tag->id, Str::slug($tag->name)]) }}">
+                                                    {{ $tag->name }}
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @endif
+
+                                <hr />
+
+                                <h4>
+                                    O mnie
+                                </h4>
+
+                                <p>
+                                    {{ $about }}
+                                </p>
+                            </aside>
+                        </div>
                     </div>
-
-                    <div class="col-md-3">
-                        <aside class="sidebar">
-                            <h4>
-                                Kategorie
-                            </h4>
-
-                            @if($categories)
-                                <ul class="nav nav-list primary push-bottom">
-                                    @foreach($categories as $category)
-                                        <li>
-                                            <a href="{{ URL::to('home/category', [$category->id, Str::slug($category->name)]) }}">
-                                                {{ $category->name }}
-                                            </a>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            @endif
-
-                            <hr>
-
-                            <h4>
-                                Tagi
-                            </h4>
-
-                            @if($tags)
-                                <ul class="nav nav-list primary push-bottom">
-                                    @foreach($tags as $tag)
-                                        <li>
-                                            <a href="{{ URL::to('home/tag', [$tag->id, Str::slug($tag->name)]) }}">
-                                                {{ $tag->name }}
-                                            </a>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            @endif
-
-                            <hr />
-
-                            <h4>
-                                O mnie
-                            </h4>
-
-                            <p>
-                                {{ $about }}
-                            </p>
-                        </aside>
-                    </div>
-                </div>
+                @else
+                    @yield('content')
+                @endif
             </div>
         </div>
 
@@ -241,7 +284,7 @@
 
                         <div class="col-md-7">
                             <p>
-                                © Copyright 2014 &middot; Rafal Różanka
+                                © Copyright 2014 &middot; Rafał Różanka
                             </p>
                         </div>
 

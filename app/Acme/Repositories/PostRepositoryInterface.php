@@ -52,4 +52,13 @@ interface PostRepositoryInterface
      */
     public function delete($id);
 
+    /**
+     * function search
+     *
+     * @param $q
+     *
+     * @return mixed
+     */
+    public function search($q);
+
 }

@@ -1,3 +1,7 @@
+/**
+ * General styles
+ *
+ */
 hr {
   border-color: #999;
 
@@ -7,6 +11,34 @@ hr {
   // &.dotted
 }
 // hr
+
+table {
+  &.dataTable {
+    thead {
+      tr {
+        td {
+          cursor: pointer;
+        }
+        // td
+      }
+      // tr
+    }
+    // thead
+  }
+  // &.dataTable
+}
+// table
+
+ul {
+  &.comments {
+    > li {
+      padding-left: 0;
+    }
+    // > li
+  }
+  // &.comments
+}
+// ul
 
 .container {
   max-width: 1170px;
@@ -53,34 +85,6 @@ hr {
   margin-bottom: 0;
 }
 // .blog-post
-
-table {
-  &.dataTable {
-    thead {
-      tr {
-        td {
-          cursor: pointer;
-        }
-        // td
-      }
-      // tr
-    }
-    // thead
-  }
-  // &.dataTable
-}
-// table
-
-/**
- * Application styles
- *
- */
-header {
-//  margin-bottom: 35px;
-//  border-bottom: 1px solid #e9e9e9;
-//  box-shadow: 0 0 3px rgba(0, 0, 0, 0.10);
-}
-// header
 
 @media(max-width: 767px) {
   body {
